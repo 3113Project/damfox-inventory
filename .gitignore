@@ -1,0 +1,16 @@
+# Database
+postgres/
+
+# Python
+**/__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log

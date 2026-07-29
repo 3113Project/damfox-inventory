@@ -1,0 +1,30 @@
+services:
+
+  db:
+    image: postgres:17
+    container_name: damfox-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: damfox
+      POSTGRES_USER: damfox
+      POSTGRES_PASSWORD: damfox
+
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+
+    container_name: damfox-backend
+
+    restart: unless-stopped
+
+    ports:
+      - "18000:8000"
+
+    volumes:
+      - ./backend:/app
+
+    depends_on:
+      - db
