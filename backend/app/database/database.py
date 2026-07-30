@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "postgresql://damfox:damfox@db:5432/damfox"
+from app.config import settings
 
 engine = create_engine(
-    DATABASE_URL,
-    echo=True
+    settings.DATABASE_URL,
+    echo=True,
 )
 
 SessionLocal = sessionmaker(

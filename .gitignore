@@ -1,16 +1,20 @@
-# Database
+# Docker
 postgres/
 
 # Python
 **/__pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 
 # Environment
 .env
+.venv/
 
-# IDE
+# VS Code
 .vscode/
-.idea/
 
 # Logs
 *.log
+
+# Alembic
+alembic/versions/__pycache__/
