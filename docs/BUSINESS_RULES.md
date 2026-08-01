@@ -46,6 +46,88 @@ Uno stesso prodotto può possedere:
 
 ---
 
+## BR-005 - Articoli indipendenti
+
+Ogni variante commerciale è un prodotto indipendente.
+
+Esempi:
+
+- Vite TCEI M6x20
+- Vite TCEI M6x25
+- Vite TCEI M6x30
+
+sono tre prodotti distinti.
+
+Ogni prodotto possiede un proprio:
+
+- SKU
+- Barcode
+- Magazzino
+- Storico prezzi
+- Fornitori
+
+## BR-006 - Famiglie prodotto
+
+I prodotti possono appartenere ad una famiglia.
+
+La famiglia serve esclusivamente ad organizzare e facilitare la ricerca.
+
+Non influenza:
+
+- magazzino
+- prezzi
+- fornitori
+- vendite
+
+## BR-007 - Ricerca prodotti
+
+La ricerca deve permettere di trovare rapidamente un prodotto utilizzando qualsiasi informazione significativa.
+
+Ad esempio:
+
+- SKU
+- Barcode
+- Codice fornitore
+- Nome
+- Marca
+- Modello
+- Descrizione
+- Famiglia
+
+## BR-008 - Documentazione
+
+Ogni prodotto può avere allegati come:
+
+- immagini
+- schede tecniche
+- manuali
+- certificazioni
+- link al sito del produttore
+
+## BR-009 - Informazioni specifiche
+
+Ogni categoria di prodotti può prevedere informazioni dedicate.
+
+Esempi:
+
+Bulloneria
+
+- tipo
+- diametro
+- lunghezza
+- materiale
+- finitura
+
+Elettroutensili
+
+- marca
+- modello
+- tipo utensile
+- potenza
+- alimentazione
+
+Il sistema deve rimanere semplice e contenere solo le informazioni realmente utili alla gestione del prodotto.
+
 # FORNITORI
 
 ## BR-010 - Fornitori multipli
@@ -202,6 +284,48 @@ La lista acquisti deve suggerire automaticamente il fornitore economicamente pi�
 L'utente può comunque scegliere un fornitore differente.
 
 ---
+
+## BR-053 - Unità di misura
+
+Ogni prodotto possiede un'unità di misura principale.
+
+Esempi:
+
+- pezzo
+- metro
+- litro
+- chilogrammo
+- sacco
+- cartuccia
+
+## BR-054 - Unità di riferimento
+
+Il magazzino gestisce sempre una sola unità di riferimento.
+
+Eventuali confezioni sono conversioni dell'unità principale.
+
+## BR-055 - Confezioni
+
+Uno stesso prodotto può essere acquistato o venduto in confezioni differenti.
+
+Esempi:
+
+1 pezzo
+
+1 scatola = 100 pezzi
+
+1 cartone = 1000 pezzi
+
+## BR-056 - Posizione di magazzino
+
+Ogni prodotto può essere associato ad una posizione fisica del magazzino.
+
+Esempio:
+
+A-03-12
+
+(corsia - scaffale - ripiano/cassetto)
+
 
 # EVOLUZIONE DEL PROGETTO
 

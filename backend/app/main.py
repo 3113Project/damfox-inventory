@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.database.base import Base
-from app.database.database import engine
+from backend.app.database.session import engine
 
 # importa i modelli
 from app.models.user import User
