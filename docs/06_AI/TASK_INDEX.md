@@ -12,5 +12,6 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0006 | Completed | Spostamento di changelog, decisioni e attività. |
 | TASK-0007 | Completed | Preparazione del sistema di Task. |
 | TASK-0008 | Completed | Formalizzazione del workflow Git, dei template Codex e dello storico del task. |
+| TASK-0009 | Completed | Creazione della baseline documentale basata su codice, migrazioni e regole di business. |
 
 <!-- Aggiungere qui i task futuri in ordine cronologico. -->
