@@ -1,20 +1,154 @@
-# Docker
+# ------------------------------------------------------------------
+# DAMFOX Inventory
+# ------------------------------------------------------------------
+
+# Docker runtime data
 postgres/
 
-# Python
-**/__pycache__/
-*.py[cod]
-*.pyo
-
-# Environment
+# Project environment files
 .env
-.venv/
+.env.*
+!.env.example
 
-# VS Code
+# Visual Studio Code
 .vscode/
 
 # Logs
 *.log
 
-# Alembic
+# Alembic caches
 alembic/versions/__pycache__/
+backend/alembic/versions/__pycache__/
+
+# ------------------------------------------------------------------
+# Python
+# ------------------------------------------------------------------
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+**/__pycache__/
+*.py[codz]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Framework/runtime files
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache
+.scrapy
+
+# Documentation builds
+docs/_build/
+site/
+
+# Build tools
+.pybuilder/
+target/
+
+# Jupyter / IPython
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+__pypackages__/
+
+# Dependency managers
+.pdm-python
+.pdm-build/
+.pixi/
+
+# Background services
+celerybeat-schedule
+celerybeat.pid
+*.rdb
+*.aof
+*.pid
+mnesia/
+rabbitmq/
+rabbitmq-data/
+activemq-data/
+
+# IDE and development tools
+.spyderproject
+.spyproject
+.ropeproject
+tempCodeRunnerFile.py
+
+# Type checking / linting
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Cython
+cython_debug/
+
+# Security-sensitive local files
+.pypirc
+.streamlit/secrets.toml
+
+# Other local tooling
+.abstra/
+marimo/_static/
+marimo/_lsp/
+__marimo__/
