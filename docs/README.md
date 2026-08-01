@@ -8,6 +8,8 @@ DAMFOX Inventory è un gestionale open source per catalogo tecnico, fornitori, p
 
 Il progetto punta a rendere accessibili attività di catalogo e magazzino a utenti non tecnici, mantenendo dati tracciabili, API chiare e un'architettura incrementale.
 
+I principi non negoziabili del progetto sono definiti nella [Project Constitution](00_Project/PROJECT_CONSTITUTION.md).
+
 ## Stato del progetto
 
 Il progetto è in fase iniziale.
@@ -42,7 +44,7 @@ I router espongono l'API, i servizi raccolgono logica e query, i modelli rappres
 
 ## Struttura della documentazione
 
-- [00_Project/](00_Project/): contesto, architettura, funzionalità e roadmap.
+- [00_Project/](00_Project/): costituzione, contesto, architettura, funzionalità e roadmap.
 - [01_Development/](01_Development/): standard e workflow di sviluppo.
 - [02_Database/](02_Database/): stato e direzione del modello dati.
 - [03_Business/](03_Business/): regole funzionali vincolanti.
@@ -82,12 +84,19 @@ Il processo operativo, il template dei task e le regole Git sono definiti in [06
 
 ## Contribuire
 
-Il progetto intende essere open source. Prima di contribuire, leggere [AI_PROMPT.md](01_Development/AI_PROMPT.md), [DEVELOPMENT_WORKFLOW.md](01_Development/DEVELOPMENT_WORKFLOW.md), [BUSINESS_RULES.md](03_Business/BUSINESS_RULES.md) e il sistema [06_AI/](06_AI/).
+Il progetto intende essere open source. Prima di contribuire, leggere:
+
+- [Project Constitution](00_Project/PROJECT_CONSTITUTION.md)
+- [AI_PROMPT.md](01_Development/AI_PROMPT.md)
+- [DEVELOPMENT_WORKFLOW.md](01_Development/DEVELOPMENT_WORKFLOW.md)
+- [BUSINESS_RULES.md](03_Business/BUSINESS_RULES.md)
+- [Sistema AI e Task](06_AI/)
 
 > Licenza: da definire con il maintainer.
 
 ## Documenti correlati
 
+- [Project Constitution](00_Project/PROJECT_CONSTITUTION.md)
 - [Architettura](00_Project/ARCHITECTURE.md)
 - [Funzionalità](00_Project/FEATURES.md)
 - [Roadmap](00_Project/ROADMAP.md)
