@@ -1,43 +1,55 @@
 # Template standard per prompt destinati a Codex
 
-Usare questo modello per definire incarichi completi, verificabili e con un perimetro esplicito.
+Le istruzioni devono essere deterministiche, ordinate per step e sufficientemente esplicite da evitare assunzioni sul perimetro del task.
 
 ## Identificativo del task
 
-Indicare l'identificativo, ad esempio `TASK-XXXX`, e un titolo breve.
+Indicare identificativo e titolo breve.
 
 ## Contesto
 
-Descrivere il progetto, il motivo della richiesta e i documenti che Codex deve leggere prima di iniziare.
+Descrivere progetto, motivo della richiesta e informazioni necessarie.
 
 ## Obiettivo
 
 Definire il risultato concreto, osservabile e completo da ottenere.
 
-## File coinvolti
+## Documenti da leggere
 
-Elencare file e cartelle autorizzati alla lettura o modifica, distinguendo se necessario i due casi.
+Elencare i documenti che Codex deve leggere prima di iniziare.
 
-## Operazioni da eseguire
+## File autorizzati
 
-Fornire passi espliciti nell'ordine desiderato. Includere solo operazioni effettivamente richieste.
+Elencare file e cartelle autorizzati alla lettura o alla modifica.
+
+## Operazioni ordinate
+
+Fornire i passi in ordine numerato e includere solo attività effettivamente richieste.
 
 ## Vincoli
 
 Specificare convenzioni, compatibilità, autorizzazioni e limiti tecnici o funzionali.
 
-## Cosa NON fare
+## Cosa non fare
 
-Elencare esplicitamente file, sistemi e attività esclusi dal perimetro del task.
+Elencare esplicitamente file, sistemi e attività esclusi dal perimetro.
 
-## Criteri di completamento
+## Test e verifiche
 
-Definire condizioni verificabili per accettare il risultato.
+Indicare i comandi o i controlli esatti da eseguire.
 
 ## Autoverifica
 
-Indicare controlli finali concreti: file presenti, contenuti richiesti, assenza di duplicati, test o altri riscontri.
+Definire controlli finali concreti: file presenti, contenuti richiesti, assenza di duplicati e condizioni da confermare.
 
-## Formato dell'output
+## Istruzioni Git
 
-Specificare esattamente il formato e il livello di dettaglio della risposta finale.
+Indicare branch, file da aggiungere allo staging, messaggio di commit, remote e autorizzazione `Push: YES` o `Push: NO`.
+
+## Condizioni di arresto
+
+Elencare errori, ambiguità o anomalie per cui Codex deve fermarsi senza improvvisare soluzioni.
+
+## Output richiesto
+
+Specificare il formato e il livello di dettaglio del report finale.

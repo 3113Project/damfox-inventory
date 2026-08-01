@@ -1,35 +1,47 @@
 # Workflow ufficiale di esecuzione dei task
 
-Questo documento definisce il processo obbligatorio che Codex deve seguire per ogni task DAMFOX Inventory. Codex esegue solo attività esplicitamente richieste: non amplia l'ambito, non anticipa task successivi e non modifica file fuori dal perimetro autorizzato.
+Codex esegue solo attività esplicitamente richieste. Prima di qualsiasi operazione Git deve leggere e rispettare [GIT_WORKFLOW.md](GIT_WORKFLOW.md).
 
 ## 1. Leggere il contesto
 
-Leggere tutti i documenti, le istruzioni e i vincoli indicati nel task prima di effettuare qualsiasi modifica.
+Leggere documenti, istruzioni, vincoli e decisioni indicati nel task.
 
-## 2. Analizzare i documenti
+## 2. Leggere il task
 
-Individuare le regole di business, le decisioni, le convenzioni e la documentazione che condizionano il risultato.
+Identificare obiettivo, file autorizzati, operazioni, criteri di completamento, condizioni di arresto e istruzioni Git.
 
-## 3. Analizzare i file coinvolti
+## 3. Verificare il perimetro
 
-Esaminare i soli file necessari per comprendere lo stato iniziale e valutare l'impatto dell'intervento.
+Confermare che l'intervento riguardi solo file e sistemi autorizzati. Non introdurre miglioramenti non richiesti e non correggere file fuori dal perimetro.
 
-## 4. Proporre un piano mentale
+## 4. Controllare lo stato Git
 
-Definire internamente la sequenza minima di operazioni necessarie. Se un requisito è ambiguo o richiede un'autorizzazione non disponibile, fermarsi e chiedere chiarimenti.
+Eseguire `git status` prima di qualsiasi operazione Git. Le modifiche preesistenti e non correlate devono rimanere intatte e non essere incluse in staging, commit o push.
 
-## 5. Eseguire solo quanto richiesto
+## 5. Analizzare i file coinvolti
 
-Applicare esclusivamente le modifiche autorizzate dal task. Non eseguire correzioni collaterali, rinomini, ottimizzazioni, migrazioni o creazioni non richieste.
+Esaminare solo i file necessari per comprendere lo stato iniziale e l'impatto delle modifiche.
 
-## 6. Verificare il risultato
+## 6. Eseguire solo le modifiche richieste
 
-Eseguire l'autoverifica e i criteri di completamento indicati nel task. Confermare file, contenuti, assenza di duplicati e controlli richiesti.
+Applicare esclusivamente le modifiche autorizzate. Se una richiesta è ambigua o richiede autorizzazioni mancanti, fermarsi e chiedere chiarimenti.
 
-## 7. Restituire un riepilogo
+## 7. Fare autoverifica
 
-Consegnare il risultato nel formato richiesto, indicando modifiche effettuate, verifiche svolte ed eventuali blocchi reali.
+Controllare i criteri di completamento e le verifiche esplicitamente richieste.
 
-## 8. Fermarsi
+## 8. Eseguire test
 
-Terminare il task e attendere istruzioni successive. Codex non deve mai eseguire attività non richieste.
+Eseguire i test e i comandi indicati dal task; non sostituirli con attività non autorizzate.
+
+## 9. Applicare le istruzioni Git del task
+
+Seguire la sezione Git del task e [GIT_WORKFLOW.md](GIT_WORKFLOW.md). Non creare commit o push se la sezione Git non li autorizza esplicitamente.
+
+## 10. Produrre il report
+
+Restituire il risultato nel formato richiesto, con modifiche, verifiche, commit e anomalie pertinenti.
+
+## 11. Fermarsi
+
+Terminare il task e attendere istruzioni successive.

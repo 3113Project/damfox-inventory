@@ -44,6 +44,45 @@ Elenco verificabile delle azioni da completare.
 
 Condizioni osservabili che rendono il task concluso.
 
+## Documentazione da aggiornare
+
+Elenco esplicito dei documenti interessati oppure:
+
+- Nessuna
+
+## Test e verifiche
+
+Comandi esatti da eseguire.
+
+## Git
+
+### Branch
+
+`main`
+
+### File da aggiungere allo staging
+
+- `percorso/file_1`
+- `percorso/file_2`
+
+### Commit
+
+`tipo: descrizione breve`
+
+### Push
+
+`YES` oppure `NO`
+
+### Remote
+
+`origin`
+
+Codex non deve aggiungere file non elencati in questa sezione.
+
+## Condizioni di arresto
+
+Elenco degli errori o delle anomalie per cui Codex deve fermarsi senza improvvisare soluzioni.
+
 ## Knowledge
 
 Regole di business, decisioni, documenti e informazioni da consultare o aggiornare.

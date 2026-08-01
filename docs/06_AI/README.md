@@ -1,23 +1,26 @@
 # Sistema Task e collaborazione AI
 
-La cartella `06_AI` contiene il sistema documentale con cui maintainer, ChatGPT e Codex definiscono, eseguono e verificano i task di DAMFOX Inventory.
+La cartella `06_AI` contiene il sistema documentale per definire, eseguire e verificare i task di DAMFOX Inventory.
+
+## Workflow di collaborazione
+
+Maintainer → ChatGPT prepara o revisiona il task → Codex esegue il task localmente → Codex crea il commit e, se autorizzato, il push → GitHub diventa la fonte di verità → ChatGPT legge GitHub ed esegue la review → il maintainer testa e approva.
+
+Il maintainer mantiene sempre il controllo su priorità, autorizzazioni, test reali e release.
 
 ## Documenti del sistema
 
-- `TASK_INDEX.md`: registro cronologico e descrittivo dei task esistenti.
-- `TASK_TEMPLATE.md`: modello standard di un task.
-- `PROMPT_TEMPLATE.md`: schema per scrivere prompt completi per Codex.
-- `CODEX_WORKFLOW.md`: processo obbligatorio di esecuzione di un task.
-- `TASKS/`: archivio dei file di task individuali quando verranno creati.
+- [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md): workflow obbligatorio di esecuzione per Codex.
+- [GIT_WORKFLOW.md](GIT_WORKFLOW.md): regole Git, commit e push.
+- [PROMPT_TEMPLATE.md](PROMPT_TEMPLATE.md): schema per prompt deterministici destinati a Codex.
+- [TASK_TEMPLATE.md](TASK_TEMPLATE.md): modello standard di un task.
+- [TASK_INDEX.md](TASK_INDEX.md): registro cronologico dei task.
+- [TASKS/](TASKS/): archivio dei file di task individuali.
 
-## Come usare il sistema Task
+## Come utilizzare il sistema Task
 
-1. Assegnare il prossimo identificativo progressivo e registrarlo in `TASK_INDEX.md`.
-2. Creare, quando necessario, un file in `TASKS/` a partire da `TASK_TEMPLATE.md`.
-3. Preparare il prompt per Codex usando `PROMPT_TEMPLATE.md`.
-4. Indicare contesto, obiettivo, file coinvolti, operazioni, vincoli, autoverifica e formato dell'output.
-5. Codex applica `CODEX_WORKFLOW.md`, verifica i criteri di completamento e si ferma al termine.
-
-## Collaborazione tra ChatGPT, Codex e maintainer
-
-Il maintainer definisce priorità, autorizzazioni e decisioni. ChatGPT può aiutare a chiarire requisiti, organizzare il task e preparare il prompt. Codex esegue esclusivamente il task autorizzato e restituisce il riepilogo richiesto. Ogni modifica o attività successiva richiede un nuovo incarico esplicito.
+1. Il maintainer o ChatGPT definisce il task con [TASK_TEMPLATE.md](TASK_TEMPLATE.md).
+2. Il task dichiara perimetro, verifiche, condizioni di arresto e istruzioni Git.
+3. Codex legge i documenti obbligatori e applica [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md) e [GIT_WORKFLOW.md](GIT_WORKFLOW.md).
+4. Il task storico viene registrato in [TASKS/](TASKS/) e l'indice viene aggiornato.
+5. Dopo il push autorizzato, GitHub rappresenta la versione ufficiale da analizzare e revisionare.
