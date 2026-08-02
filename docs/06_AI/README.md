@@ -1,16 +1,35 @@
 # Sistema Task e collaborazione AI
 
-La cartella `06_AI` contiene il sistema documentale per definire, eseguire e verificare i task di DAMFOX Inventory.
+La cartella `06_AI` contiene la memoria operativa per definire, eseguire e verificare i task di DAMFOX Inventory.
+
+## Livelli del contesto
+
+### Bootstrap permanente
+
+[`../../AGENTS.md`](../../AGENTS.md) contiene le istruzioni minime che Codex deve applicare prima di ogni attività: fetch del remoto, lettura della memoria AI da `origin/main` e protezione del working tree.
+
+### Stato operativo
+
+[AI_STATE.md](AI_STATE.md) riassume il task corrente, l'ultima review, i prossimi task, i blocchi e le decisioni attive.
+
+### Memoria operativa AI
+
+La cartella `06_AI` contiene task, review, decisioni e workflow. Per Codex, la versione ufficiale deve essere letta da `origin/main` tramite `git show` dopo il fetch obbligatorio.
+
+### Knowledge di progetto
+
+Le cartelle `00_Project`–`05_Project_Management` contengono architettura, standard, database, regole di business, UI e gestione del progetto. Codex le legge solo quando il task le richiede o quando sono strettamente necessarie per comprenderne il perimetro.
 
 ## Workflow di collaborazione
 
-Maintainer → ChatGPT prepara o revisiona il task → Codex esegue il task localmente → Codex crea commit e push se autorizzato → Codex archivia una Engineering Review → GitHub diventa la fonte di verità → ChatGPT legge GitHub ed esegue la review → il maintainer testa e approva.
+Maintainer → ChatGPT prepara o revisiona il task e aggiorna GitHub → Codex legge bootstrap e stato remoto → Codex esegue il task localmente → Codex crea commit e push se autorizzato → Codex archivia una Engineering Review → ChatGPT legge GitHub ed esegue la review → il maintainer testa e approva.
 
 Il maintainer mantiene sempre il controllo su priorità, autorizzazioni, test reali e release.
 
 ## Struttura
 
-- [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md): workflow obbligatorio di esecuzione per Codex.
+- [AI_STATE.md](AI_STATE.md): stato operativo corrente.
+- [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md): workflow obbligatorio di esecuzione.
 - [GIT_WORKFLOW.md](GIT_WORKFLOW.md): regole Git, commit e push.
 - [PROMPT_TEMPLATE.md](PROMPT_TEMPLATE.md): schema per prompt deterministici.
 - [TASK_TEMPLATE.md](TASK_TEMPLATE.md): modello standard di un task.
@@ -34,13 +53,18 @@ Le review usano uno dei verdetti:
 - NON APPROVATO
 - NON APPLICABILE
 
-## Come utilizzare il sistema
+## Comandi sintetici
 
-1. Il maintainer o ChatGPT definisce il task.
-2. Codex legge il task, il workflow e i documenti richiesti.
-3. Codex esegue soltanto il perimetro autorizzato.
-4. Codex verifica il risultato e applica le istruzioni Git.
-5. Codex crea o aggiorna la Engineering Review del task.
-6. Dopo il push, GitHub rappresenta la versione ufficiale da analizzare.
-7. ChatGPT legge task, codice e review direttamente da GitHub.
-8. Il maintainer prende le decisioni funzionali e approva il risultato.
+Il maintainer può usare:
+
+```text
+Esegui TASK-XXXX
+```
+
+oppure:
+
+```text
+Esegui l'ultimo task
+```
+
+In entrambi i casi Codex deve prima applicare `AGENTS.md`, leggere `AI_STATE.md`, verificare `TASK_INDEX.md` e caricare il task da `origin/main`.
