@@ -2,23 +2,66 @@
 
 Codex esegue solo attività esplicitamente richieste. Prima di qualsiasi operazione Git deve leggere e rispettare [GIT_WORKFLOW.md](GIT_WORKFLOW.md).
 
+## Regola preliminare obbligatoria — sincronizzare il contesto `06_AI`
+
+Prima di interpretare o eseguire qualsiasi comando del maintainer, Codex deve aggiornare i riferimenti remoti:
+
+```bash
+git fetch origin main
+```
+
+La versione ufficiale e più recente della cartella `docs/06_AI/` è sempre quella presente in `origin/main`.
+
+Codex deve quindi leggere da `origin/main`, mediante `git show`, almeno:
+
+- `docs/06_AI/CODEX_WORKFLOW.md`;
+- `docs/06_AI/GIT_WORKFLOW.md`;
+- `docs/06_AI/TASK_INDEX.md`;
+- il task richiesto;
+- le decisioni, review e altri documenti `06_AI` indicati dal task.
+
+Esempio:
+
+```bash
+git show origin/main:docs/06_AI/TASK_INDEX.md
+git show origin/main:docs/06_AI/TASKS/TASK-0015.md
+```
+
+Questa sincronizzazione del contesto è obbligatoria anche quando il branch locale contiene modifiche non committate o risulta indietro rispetto a `origin/main`.
+
+Per aggiornare il contesto `06_AI`, Codex non deve usare automaticamente:
+
+- `git pull`;
+- merge;
+- rebase;
+- reset;
+- stash;
+- checkout o restore dell'intera cartella `docs/06_AI/`.
+
+Il semplice `fetch` e la lettura con `git show origin/main:...` consentono di usare sempre task, decisioni e workflow aggiornati senza alterare il working tree locale.
+
+Se `git fetch origin main` fallisce, Codex deve fermarsi e riportare l'errore: non deve eseguire un task basandosi su una copia locale potenzialmente obsoleta.
+
 ## Comandi sintetici del maintainer
 
 ### `Esegui TASK-XXXX`
 
-Aprire `TASKS/TASK-XXXX.md` ed eseguirlo integralmente secondo questo workflow.
+1. Applicare la regola preliminare obbligatoria di sincronizzazione del contesto `06_AI`.
+2. Leggere `docs/06_AI/TASKS/TASK-XXXX.md` da `origin/main`.
+3. Eseguirlo integralmente secondo questo workflow.
 
 ### `Esegui l'ultimo task`
 
-1. Leggere `TASK_INDEX.md` dalla versione più recente disponibile.
-2. Individuare il task con stato `Planned` avente il numero progressivo più alto.
-3. Aprire il relativo file in `TASKS/`.
-4. Eseguirlo integralmente secondo questo workflow.
-5. Se non esistono task `Planned`, fermarsi e comunicarlo.
+1. Applicare la regola preliminare obbligatoria di sincronizzazione del contesto `06_AI`.
+2. Leggere `docs/06_AI/TASK_INDEX.md` da `origin/main`.
+3. Individuare il task con stato `Planned` avente il numero progressivo più alto.
+4. Leggere il relativo file in `docs/06_AI/TASKS/` da `origin/main`.
+5. Eseguirlo integralmente secondo questo workflow.
+6. Se non esistono task `Planned`, fermarsi e comunicarlo.
 
 ## 1. Leggere il contesto
 
-Leggere documenti, istruzioni, vincoli e decisioni indicati nel task.
+Leggere documenti, istruzioni, vincoli e decisioni indicati nel task. Per i documenti sotto `docs/06_AI/`, usare la versione di `origin/main` ottenuta dopo il fetch obbligatorio.
 
 ## 2. Leggere il task
 
@@ -30,7 +73,7 @@ Confermare che l'intervento riguardi solo file e sistemi autorizzati. Non introd
 
 ## 4. Controllare lo stato Git
 
-Eseguire `git status` prima di qualsiasi operazione Git. Le modifiche preesistenti e non correlate devono rimanere intatte e non essere incluse in staging, commit o push.
+Eseguire `git status` prima di qualsiasi modifica o operazione Git ulteriore. Le modifiche preesistenti e non correlate devono rimanere intatte e non essere incluse in staging, commit o push.
 
 ## 5. Analizzare i file coinvolti
 
@@ -51,6 +94,8 @@ Eseguire i test e i comandi indicati dal task; non sostituirli con attività non
 ## 9. Applicare le istruzioni Git del task
 
 Seguire la sezione Git del task e [GIT_WORKFLOW.md](GIT_WORKFLOW.md). Non creare commit o push relativi all'implementazione se la sezione Git non li autorizza esplicitamente.
+
+Prima di qualsiasi push, eseguire un nuovo `git fetch origin main` e verificare che la pubblicazione sia fast-forward. Il fetch non autorizza automaticamente pull, merge o rebase.
 
 ## 10. Preparare la Engineering Review
 
