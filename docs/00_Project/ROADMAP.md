@@ -20,7 +20,8 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 
 ## Milestone 0.3 — Catalogo prodotti
 
-- Planned — Prodotti con SKU immutabile, categoria e IVA.
+- Completed — Nucleo Products con SKU immutabile, Category facoltativa e VAT obbligatoria.
+- Planned — Famiglie prodotto.
 - Planned — Famiglie, barcode, documenti, immagini e ricerca, secondo BUSINESS_RULES.md.
 
 ## Milestone 0.4 — Fornitori e prezzi

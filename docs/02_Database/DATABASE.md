@@ -25,13 +25,17 @@ Il modello `User` è presente con username univoco, password, flag `is_admin`, `
 
 Il modello base fornisce `id`, `created_at` e `updated_at` ai modelli che lo ereditano.
 
+### Product
+
+Il modello `Product` è implementato con SKU immutabile, nome, descrizione facoltativa, Category facoltativa, VAT obbligatoria, stato attivo e timestamp. Lo SKU è univoco senza distinzione tra maiuscole e minuscole tramite indice PostgreSQL normalizzato. La cancellazione fisica è consentita finché non esistono riferimenti operativi e sarà rivalutata con prezzi, fornitori e magazzino.
+
 ### Category
 
 Il modello `Category` è implementato con `name`, `description`, `parent_id`, `active`, ID e timestamp. La gerarchia non ha profondità fissa; auto-parenting e cicli diretti o indiretti sono vietati. I nomi sono univoci fra fratelli ignorando maiuscole e spazi iniziali/finali, ma possono ripetersi sotto padri diversi. La cancellazione di un nodo con figli restituisce conflitto. Il CRUD usa PATCH ed è coperto da test automatici.
 
 ## Entità pianificate
 
-- Product, ProductFamily, Barcode, Image, Document, UnitOfMeasure e Packaging.
+- ProductFamily, Barcode, Image, Document, UnitOfMeasure e Packaging.
 - Supplier, ProductSupplier e PurchasePriceHistory.
 - InventoryMovement e i dati necessari a giacenza, scorta minima e ubicazione.
 
@@ -40,8 +44,8 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 | Relazione | Stato |
 | --- | --- |
 | Category gerarchica (`parent_id`) | Implementata. |
-| Product → VATRate | Pianificata; richiesta da BR-022. |
-| Product → Category | Pianificata. |
+| Product → VATRate | Implementata; richiesta da BR-022. |
+| Product → Category | Implementata e facoltativa. |
 | Product ↔ Supplier tramite ProductSupplier | Pianificata; il costo appartiene a questa relazione. |
 | ProductSupplier → PurchasePriceHistory | Pianificata; lo storico non deve essere eliminato. |
 | Product → InventoryMovement | Pianificata; necessaria alla tracciabilità del magazzino. |
@@ -56,7 +60,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 
 ## Migrazioni
 
-Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates` e `categories`; tutte le tabelle includono ID, timestamp,
+Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates`, `categories` e `products`; tutte le tabelle includono ID, timestamp,
 nullability e vincoli coerenti con i modelli ORM registrati in `app.models`.
 
 `DATABASE_URL` proviene dalla configurazione applicativa anche durante le

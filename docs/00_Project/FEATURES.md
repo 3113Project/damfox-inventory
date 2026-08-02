@@ -5,6 +5,7 @@
 - **Backend FastAPI:** applicazione avviabile con endpoint di stato `GET /`.
 - **Aliquote IVA:** CRUD REST end-to-end su `/vat-rates/`, con PATCH parziale, validazioni `0.00–100.00`, errori deterministici, rollback transazionale, vincolo database e test automatici.
 - **Categorie:** CRUD REST gerarchico su `/categories`, PATCH parziale, nomi univoci per fratelli ignorando maiuscole e spazi esterni, cicli vietati, cancellazione dei nodi padre protetta e test automatici.
+- **Prodotti:** CRUD REST su `/products` con SKU immutabile e univoco senza distinzione di maiuscole, Category facoltativa, VAT obbligatoria e PATCH parziale.
 
 ## In sviluppo
 
@@ -16,10 +17,6 @@
 
 - Ricerca e classificazione tecnica degli articoli (BR-001, BR-007, BR-009).
 - Famiglie, immagini, documenti, codici produttore e barcode (BR-003, BR-004, BR-006, BR-008).
-
-### Prodotti
-
-- SKU univoco e immutabile, varianti indipendenti, IVA e unità di misura (BR-002, BR-005, BR-022, BR-053).
 
 ### Fornitori
 

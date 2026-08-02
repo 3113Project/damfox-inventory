@@ -24,10 +24,10 @@ Il client web o mobile è futuro: non è presente nel repository.
 
 | Area | Responsabilità osservabile |
 | --- | --- |
-| `api/` | Router FastAPI e versione `v1`; i router IVA e Categories sono attivi. |
-| `services/` | Query e operazioni CRUD; i service IVA e Categories sono attivi. |
+| `api/` | Router FastAPI e versione `v1`; i router IVA, Categories e Products sono attivi. |
+| `services/` | Query e operazioni CRUD; i service IVA, Categories e Products sono attivi. |
 | `schemas/` | Schemi Pydantic per input e risposte API. |
-| `models/` | Modelli SQLAlchemy; esistono User, VATRate e Category integrati nella metadata. |
+| `models/` | Modelli SQLAlchemy; esistono User, VATRate, Category e Product integrati nella metadata. |
 | `database/` | Base ORM, engine e session factory. |
 | `dependencies/` | Dipendenza di sessione DB; auth e paginazione sono placeholder vuoti. |
 | `core/` | Configurazione con Pydantic Settings ed eccezioni applicative condivise; sicurezza e logging sono placeholder vuoti. |
@@ -38,7 +38,7 @@ Per i CRUD IVA e Categories, i router `api/v1/vat_rates.py` e `api/v1/categories
 
 ## Database e migrazioni
 
-Alembic è l’unica fonte di verità dello schema. Le revisioni lineari creano `users`, `vat_rates` e `categories` con ID, timestamp, chiavi primarie e vincoli univoci
+Alembic è l’unica fonte di verità dello schema. Le revisioni lineari creano `users`, `vat_rates`, `categories` e `products` con ID, timestamp, chiavi primarie e vincoli univoci
 coerenti con i modelli inclusi nella metadata. L’avvio FastAPI non esegue
 `Base.metadata.create_all()`.
 
@@ -54,7 +54,7 @@ Category è inclusa nella metadata e nella migrazione `a4c5d6e7f8b9`, verificata
 
 ## API
 
-L'API è impostata come FastAPI versione `0.1.0`. Sono presenti i router `v1` per `/vat-rates` e `/categories`, entrambi con operazioni di elenco, dettaglio, creazione, aggiornamento PATCH e cancellazione. L'endpoint `/` restituisce lo stato del software. FastAPI espone OpenAPI e Swagger nel percorso standard `/docs`.
+L'API è impostata come FastAPI versione `0.1.0`. Sono presenti i router `v1` per `/vat-rates`, `/categories` e `/products`, entrambi con operazioni di elenco, dettaglio, creazione, aggiornamento PATCH e cancellazione. L'endpoint `/` restituisce lo stato del software. FastAPI espone OpenAPI e Swagger nel percorso standard `/docs`.
 
 ## Sicurezza
 

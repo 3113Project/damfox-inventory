@@ -1,0 +1,83 @@
+"""Business logic for Products."""
+
+from sqlalchemy import func, select
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
+from app.core.exceptions import ConflictError, ResourceNotFoundError
+from app.models.category import Category
+from app.models.product import Product
+from app.models.vat_rate import VATRate
+from app.schemas.product import ProductCreate, ProductUpdate
+
+
+def _commit(db: Session, message: str = "Product SKU already exists") -> None:
+    try:
+        db.commit()
+    except IntegrityError as exc:
+        db.rollback()
+        raise ConflictError(message) from exc
+    except Exception:
+        db.rollback()
+        raise
+
+
+def _references(db: Session, category_id: int | None, vat_rate_id: int) -> None:
+    if category_id is not None and db.get(Category, category_id) is None:
+        raise ResourceNotFoundError("Category not found")
+    if db.get(VATRate, vat_rate_id) is None:
+        raise ResourceNotFoundError("VAT rate not found")
+
+
+def _unique(db: Session, sku: str) -> None:
+    query = select(Product.id).where(func.lower(func.btrim(Product.sku)) == sku.lower())
+    if db.scalar(query.limit(1)) is not None:
+        raise ConflictError("Product SKU already exists")
+
+
+def list_products(db: Session) -> list[Product]:
+    """List products by normalized SKU."""
+    return list(db.scalars(select(Product).order_by(func.lower(Product.sku), Product.id)).all())
+
+
+def get_product(db: Session, product_id: int) -> Product:
+    """Return a product or raise a deterministic not-found error."""
+    product = db.get(Product, product_id)
+    if product is None:
+        raise ResourceNotFoundError("Product not found")
+    return product
+
+
+def create_product(db: Session, payload: ProductCreate) -> Product:
+    """Create a product after SKU and foreign-key validation."""
+    sku = payload.sku.strip()
+    _unique(db, sku)
+    _references(db, payload.category_id, payload.vat_rate_id)
+    data = payload.model_dump()
+    data["sku"] = sku
+    product = Product(**data)
+    db.add(product)
+    _commit(db)
+    db.refresh(product)
+    return product
+
+
+def update_product(db: Session, product_id: int, payload: ProductUpdate) -> Product:
+    """Partially update mutable product fields."""
+    product = get_product(db, product_id)
+    changes = payload.model_dump(exclude_unset=True)
+    category_id = changes.get("category_id", product.category_id)
+    vat_rate_id = changes.get("vat_rate_id", product.vat_rate_id)
+    _references(db, category_id, vat_rate_id)
+    for field, value in changes.items():
+        setattr(product, field, value)
+    _commit(db, "Product update conflicts with persisted data")
+    db.refresh(product)
+    return product
+
+
+def delete_product(db: Session, product_id: int) -> None:
+    """Physically delete a product while no operational references exist."""
+    product = get_product(db, product_id)
+    db.delete(product)
+    _commit(db, "Product cannot be deleted")

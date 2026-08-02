@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Implementato il nucleo Products con SKU immutabile, Category facoltativa, VAT obbligatoria, CRUD PATCH e migrazione reversibile.
+
 - Completato il modulo Categories con modello gerarchico, schemi, service CRUD, router e PATCH parziale.
 - Applicate unicità normalizzata per fratelli, protezione da cicli e conflitto sulla cancellazione dei nodi con figli.
 - Aggiunta la migrazione reversibile `a4c5d6e7f8b9` e registrata Category nella metadata ORM.
@@ -19,6 +21,8 @@
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+
+- Suite backend con Products: 16 test verdi; verificati SKU normalizzato, FK, OpenAPI e ciclo migrazione Products.
 
 - Completato il quality gate delle fondamenta su immagine backend ricostruita senza cache e database PostgreSQL ricreato da zero.
 - Confermati import, avvio, stato, Swagger, OpenAPI, metadata, migrazioni, rollback e assenza di segreti tracciati.
