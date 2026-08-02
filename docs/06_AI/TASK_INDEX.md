@@ -13,8 +13,9 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0007 | Completed | Preparazione del sistema di Task. |
 | TASK-0008 | Completed | Formalizzazione del workflow Git, dei template Codex e dello storico del task. |
 | TASK-0009 | Completed | Creazione della baseline documentale basata su codice, migrazioni e regole di business. |
-| TASK-0010 | Planned | Audit tecnico, non distruttivo, delle modifiche backend locali e del modulo Categories. |
-| TASK-0011 | Planned | Sincronizzazione Git automatica sicura con fetch periodico e fast-forward solo a working tree pulito. |
-| TASK-0012 | Planned | Archivio versionato delle risposte finali Codex in `docs/06_AI/RESPONSES/`, leggibile direttamente da GitHub. |
+| TASK-0010 | Completed | Audit tecnico delle modifiche backend locali; review archiviata in `REVIEWS/REVIEW-0010.md`. |
+| TASK-0011 | Completed | Sincronizzazione Git automatica sicura tramite systemd. |
+| TASK-0012 | Superseded | Archivio generico delle risposte sostituito dalle Engineering Reviews. |
+| TASK-0013 | Completed | Adozione delle Engineering Reviews e nuova struttura documentale AI. |
 
 <!-- Aggiungere qui i task futuri in ordine cronologico. -->
