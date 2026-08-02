@@ -28,6 +28,8 @@ Ogni variazione strutturale del database deve passare attraverso una migrazione 
 
 Campi, tabelle e relazioni non devono essere rinominati o rimossi senza una decisione documentata e una strategia di migrazione.
 
+Durante la fase iniziale, un database dichiarato esplicitamente come ambiente di sviluppo sacrificabile può essere ricreato soltanto sulla base di una decisione documentata del maintainer.
+
 ## 4. GitHub è la fonte di verità
 
 Il repository GitHub ufficiale rappresenta lo stato condiviso e revisionabile del progetto.
@@ -72,9 +74,9 @@ La logica di business non deve essere dispersa tra router, modelli e interfaccia
 
 ## 8. Migrazioni controllate come unica strategia di schema
 
-Alembic deve diventare l'unica fonte di verità per la creazione e l'evoluzione dello schema database.
+Alembic deve essere l'unica fonte di verità per la creazione e l'evoluzione dello schema database.
 
-Meccanismi automatici come `Base.metadata.create_all()` possono essere tollerati solo temporaneamente durante la fase iniziale e devono essere rimossi quando la baseline delle migrazioni è affidabile.
+Meccanismi automatici come `Base.metadata.create_all()` non devono far parte del percorso normale di avvio dell'applicazione.
 
 ## 9. API stabili e prevedibili
 
@@ -133,7 +135,15 @@ Ogni nuovo modulo dovrebbe includere, quando applicabile:
 
 È preferibile completare un modulo coerente prima di iniziarne molti incompleti.
 
-## 15. Ruoli nel workflow assistito da AI
+## 15. Fondamenta prima delle nuove funzionalità
+
+Fino alla milestone 1.0, la qualità delle fondamenta ha priorità assoluta rispetto all'aggiunta di nuove funzionalità.
+
+Problemi architetturali, di persistenza, migrazione, transazione, validazione, sicurezza o testabilità che compromettono l'affidabilità devono essere risolti prima di ampliare il dominio applicativo.
+
+Una Engineering Review può bloccare i task successivi finché i prerequisiti non sono soddisfatti.
+
+## 16. Ruoli nel workflow assistito da AI
 
 Il maintainer decide direzione, priorità e approvazioni finali.
 
@@ -163,3 +173,4 @@ Ogni modifica deve:
 - [Regole di business](../03_Business/BUSINESS_RULES.md)
 - [Standard di sviluppo](../01_Development/CODING_STANDARDS.md)
 - [Workflow Git](../06_AI/GIT_WORKFLOW.md)
+- [Decisioni AI](../06_AI/DECISIONS/README.md)
