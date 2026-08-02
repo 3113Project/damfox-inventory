@@ -52,44 +52,52 @@ Eseguire i test e i comandi indicati dal task; non sostituirli con attività non
 
 Seguire la sezione Git del task e [GIT_WORKFLOW.md](GIT_WORKFLOW.md). Non creare commit o push relativi all'implementazione se la sezione Git non li autorizza esplicitamente.
 
-## 10. Preparare il report integrale
+## 10. Preparare la Engineering Review
 
-Preparare la risposta finale completa prima di mostrarla al maintainer. Il report deve includere integralmente tutto ciò che Codex intende restituire nella risposta finale, senza riassunti o omissioni.
+Ogni task deve produrre una review tecnica completa in `REVIEWS/`.
 
-## 11. Archiviare automaticamente la risposta
+Il file deve chiamarsi:
 
-Ogni risposta finale relativa a un task deve essere salvata nel repository in:
+`REVIEW-XXXX.md`
 
-`docs/06_AI/RESPONSES/`
+Il numero deve corrispondere al task. Usare [REVIEWS/REVIEW_TEMPLATE.md](REVIEWS/REVIEW_TEMPLATE.md) come struttura di riferimento.
 
-Usare un file Markdown distinto per ogni risposta con questo formato:
+La review deve contenere, quando pertinenti:
 
-`TASK-XXXX_YYYY-MM-DD_HHMMSS.md`
+- metadati del task;
+- verdetto: `APPROVATO`, `APPROVATO CON RISERVE`, `NON APPROVATO` oppure `NON APPLICABILE`;
+- livello di rischio;
+- sintesi esecutiva;
+- conteggio dei problemi per priorità;
+- problemi con ID stabile `BUG-XXXX`;
+- milestone o task previsto per la risoluzione;
+- riferimenti a regole, standard e documentazione violati;
+- review per file;
+- review end-to-end;
+- regressioni potenziali;
+- checklist;
+- piano di consolidamento;
+- decisioni richieste al maintainer;
+- conferma finale delle operazioni eseguite.
 
-Se la risposta non riguarda un task numerato, usare:
+La risposta mostrata al maintainer deve essere coerente con la review archiviata. La review non è una semplice trascrizione della conversazione, ma il documento tecnico ufficiale prodotto dal task.
 
-`GENERAL_YYYY-MM-DD_HHMMSS.md`
+## 11. Archiviare e pubblicare la review
 
-Il file deve contenere:
+La creazione della review è un'operazione amministrativa obbligatoria e separata dall'implementazione.
 
-- identificativo e titolo del task, quando disponibili;
-- data e ora;
-- commit HEAD osservato all'inizio;
-- testo integrale della risposta finale;
-- eventuali errori o condizioni di arresto.
+È consentita anche quando il task indica `Push: NO`, purché:
 
-L'archiviazione del report è un'operazione amministrativa obbligatoria e separata dall'implementazione del task. È consentita anche quando il task indica `Push: NO`, purché:
-
-1. venga aggiunto allo staging esclusivamente il file della risposta;
+1. venga aggiunto allo staging esclusivamente il file `REVIEWS/REVIEW-XXXX.md`;
 2. non vengano incluse modifiche applicative o documentali non autorizzate;
-3. venga usato il commit `docs: archive Codex response for TASK-XXXX` oppure `docs: archive Codex response`;
-4. venga eseguito il push su `origin/main` solo se il branch locale può avanzare in fast-forward senza pull, merge, rebase o reset;
+3. venga usato il commit `docs: archive engineering review for TASK-XXXX`;
+4. venga eseguito il push su `origin/main` solo se il branch locale può avanzare senza pull, merge, rebase, reset o force push;
 5. in caso di cronologie divergenti o push rifiutato, il file resti locale e l'errore venga riportato integralmente.
 
-Prima del commit del report eseguire:
+Prima del commit eseguire:
 
 - `git diff --cached --check`;
-- `git diff --cached --stat`;
+- `git diff --cached --stat`.
 
 Dopo il commit eseguire:
 
@@ -97,11 +105,12 @@ Dopo il commit eseguire:
 
 ## 12. Mostrare il report
 
-Mostrare al maintainer esattamente lo stesso contenuto archiviato nel file Markdown, aggiungendo in fondo:
+Mostrare al maintainer il riepilogo finale previsto dal task e indicare:
 
-- percorso del file della risposta;
-- commit SHA dell'archivio, se creato;
-- esito del push dell'archivio.
+- percorso della review;
+- verdetto;
+- commit SHA della review, se creato;
+- esito del push.
 
 ## 13. Fermarsi
 
