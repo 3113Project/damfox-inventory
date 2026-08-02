@@ -25,11 +25,9 @@ Il modello `User` è presente con username univoco, password, flag `is_admin`, `
 
 Il modello base fornisce `id`, `created_at` e `updated_at` ai modelli che lo ereditano.
 
-## Entità in sviluppo
-
 ### Category
 
-Nel working tree esiste un modello per categorie gerarchiche con `name`, `description`, `parent_id`, `active`, vincolo di unicità per padre/nome e relazione padre-figli. Non è integrato nella metadata, non ha migrazione, service o router funzionanti e contiene riferimenti a moduli non presenti.
+Il modello `Category` è implementato con `name`, `description`, `parent_id`, `active`, ID e timestamp. La gerarchia non ha profondità fissa; auto-parenting e cicli diretti o indiretti sono vietati. I nomi sono univoci fra fratelli ignorando maiuscole e spazi iniziali/finali, ma possono ripetersi sotto padri diversi. La cancellazione di un nodo con figli restituisce conflitto. Il CRUD usa PATCH ed è coperto da test automatici.
 
 ## Entità pianificate
 
@@ -41,7 +39,7 @@ Nel working tree esiste un modello per categorie gerarchiche con `name`, `descri
 
 | Relazione | Stato |
 | --- | --- |
-| Category gerarchica (`parent_id`) | In sviluppo. |
+| Category gerarchica (`parent_id`) | Implementata. |
 | Product → VATRate | Pianificata; richiesta da BR-022. |
 | Product → Category | Pianificata. |
 | Product ↔ Supplier tramite ProductSupplier | Pianificata; il costo appartiene a questa relazione. |
@@ -58,8 +56,7 @@ Nel working tree esiste un modello per categorie gerarchiche con `name`, `descri
 
 ## Migrazioni
 
-Alembic è l’unica fonte di verità dello schema. La baseline lineare crea prima
-`users` e poi `vat_rates`; entrambe le tabelle includono ID, timestamp,
+Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates` e `categories`; tutte le tabelle includono ID, timestamp,
 nullability e vincoli coerenti con i modelli ORM registrati in `app.models`.
 
 `DATABASE_URL` proviene dalla configurazione applicativa anche durante le
@@ -67,7 +64,7 @@ migrazioni. La baseline è stata verificata su database vuoto, una seconda
 esecuzione di `alembic upgrade head` è risultata idempotente e
 `alembic check` non ha rilevato operazioni mancanti.
 
-Una migrazione correttiva successiva alla baseline applica il vincolo `ck_vat_rates_rate_range`. Category non è inclusa nella baseline.
+Una migrazione correttiva applica il vincolo `ck_vat_rates_rate_range`; la revisione `a4c5d6e7f8b9` crea Categories, la chiave esterna gerarchica, il vincolo sul nome e gli indici univoci normalizzati per radici e fratelli.
 
 ## Decisioni aperte
 

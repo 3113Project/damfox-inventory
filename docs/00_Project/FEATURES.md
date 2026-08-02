@@ -4,10 +4,10 @@
 
 - **Backend FastAPI:** applicazione avviabile con endpoint di stato `GET /`.
 - **Aliquote IVA:** CRUD REST end-to-end su `/vat-rates/`, con PATCH parziale, validazioni `0.00–100.00`, errori deterministici, rollback transazionale, vincolo database e test automatici.
+- **Categorie:** CRUD REST gerarchico su `/categories`, PATCH parziale, nomi univoci per fratelli ignorando maiuscole e spazi esterni, cicli vietati, cancellazione dei nodi padre protetta e test automatici.
 
 ## In sviluppo
 
-- **Categorie:** il working tree contiene modello gerarchico e schemi iniziali, ma service e router sono vuoti, il router non è registrato e non esiste una migrazione. Il modulo non è disponibile end-to-end.
 - **Utenti:** esiste il modello ORM, senza API, autenticazione o migrazione effettiva della tabella.
 
 ## Pianificato
@@ -16,10 +16,6 @@
 
 - Ricerca e classificazione tecnica degli articoli (BR-001, BR-007, BR-009).
 - Famiglie, immagini, documenti, codici produttore e barcode (BR-003, BR-004, BR-006, BR-008).
-
-### Categorie
-
-- Categorie operative gerarchiche e campi specifici per categoria (BR-009).
 
 ### Prodotti
 

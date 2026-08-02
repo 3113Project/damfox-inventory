@@ -24,22 +24,21 @@ Il client web o mobile è futuro: non è presente nel repository.
 
 | Area | Responsabilità osservabile |
 | --- | --- |
-| `api/` | Router FastAPI e versione `v1`; il router IVA è attivo. |
-| `services/` | Query e operazioni CRUD; il service IVA è attivo. |
+| `api/` | Router FastAPI e versione `v1`; i router IVA e Categories sono attivi. |
+| `services/` | Query e operazioni CRUD; i service IVA e Categories sono attivi. |
 | `schemas/` | Schemi Pydantic per input e risposte API. |
-| `models/` | Modelli SQLAlchemy; esistono User, VATRate e un Category non integrato. |
+| `models/` | Modelli SQLAlchemy; esistono User, VATRate e Category integrati nella metadata. |
 | `database/` | Base ORM, engine e session factory. |
 | `dependencies/` | Dipendenza di sessione DB; auth e paginazione sono placeholder vuoti. |
-| `core/` | Configurazione con Pydantic Settings; sicurezza, logging ed eccezioni sono placeholder vuoti. |
+| `core/` | Configurazione con Pydantic Settings ed eccezioni applicative condivise; sicurezza e logging sono placeholder vuoti. |
 
 ## Flusso di una richiesta
 
-Per il CRUD IVA, il router `api/v1/vat_rates.py` riceve e valida la richiesta tramite schemi Pydantic, ottiene una sessione DB tramite dipendenza, delega al service e restituisce il modello ORM convertito nello schema di risposta. Il service usa SQLAlchemy per interrogare o modificare PostgreSQL; gli errori di risorsa non trovata sono gestiti dal router con HTTP 404.
+Per i CRUD IVA e Categories, i router `api/v1/vat_rates.py` e `api/v1/categories.py` riceve e valida la richiesta tramite schemi Pydantic, ottiene una sessione DB tramite dipendenza, delega al service e restituisce il modello ORM convertito nello schema di risposta. Il service usa SQLAlchemy per interrogare o modificare PostgreSQL; gli errori di risorsa non trovata sono gestiti dal router con HTTP 404.
 
 ## Database e migrazioni
 
-Alembic è l’unica fonte di verità dello schema. Le due revisioni lineari creano
-`users` e `vat_rates` con ID, timestamp, chiavi primarie e vincoli univoci
+Alembic è l’unica fonte di verità dello schema. Le revisioni lineari creano `users`, `vat_rates` e `categories` con ID, timestamp, chiavi primarie e vincoli univoci
 coerenti con i modelli inclusi nella metadata. L’avvio FastAPI non esegue
 `Base.metadata.create_all()`.
 
@@ -47,7 +46,7 @@ La baseline è stata verificata partendo da PostgreSQL vuoto, applicando due vol
 `alembic upgrade head` e controllando con `alembic check` l’assenza di
 differenze tra metadata e database.
 
-Category resta esclusa dalla metadata e dalle migrazioni fino al task dedicato.
+Category è inclusa nella metadata e nella migrazione `a4c5d6e7f8b9`, verificata anche con downgrade e nuovo upgrade.
 
 ## Configurazione
 
@@ -55,11 +54,11 @@ Category resta esclusa dalla metadata e dalle migrazioni fino al task dedicato.
 
 ## API
 
-L'API è impostata come FastAPI versione `0.1.0`. È presente il router `v1` per `/vat-rates` con operazioni di elenco, dettaglio, creazione, aggiornamento e cancellazione. L'endpoint `/` restituisce lo stato del software. FastAPI espone OpenAPI e Swagger nel percorso standard `/docs`.
+L'API è impostata come FastAPI versione `0.1.0`. Sono presenti i router `v1` per `/vat-rates` e `/categories`, entrambi con operazioni di elenco, dettaglio, creazione, aggiornamento PATCH e cancellazione. L'endpoint `/` restituisce lo stato del software. FastAPI espone OpenAPI e Swagger nel percorso standard `/docs`.
 
 ## Sicurezza
 
-Non risultano autenticazione o autorizzazione operative: esiste un modello User ma `dependencies/auth.py`, `core/security.py` ed eccezioni/logging sono vuoti.
+Non risultano autenticazione o autorizzazione operative: esiste un modello User ma `dependencies/auth.py`, `core/security.py` e il logging sono vuoti.
 
 ## Frontend
 
@@ -68,10 +67,6 @@ Il frontend è pianificato e non è implementato. Consultare [UI_GUIDELINES.md](
 ## Deployment attuale
 
 L'unico ambiente verificabile è Docker Compose con backend e PostgreSQL, rete predefinita Compose, volume dati locale e porta host `18000` per l'API.
-
-## Decisioni ancora aperte
-
-> TODO: verificare con il maintainer il modello dati definitivo per categorie e il piano di integrazione del relativo modulo.
 
 ## Documenti correlati
 

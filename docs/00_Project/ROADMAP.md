@@ -15,8 +15,7 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 
 ## Milestone 0.2 — Categorie
 
-- In progress — Modello gerarchico e schemi iniziali nel working tree.
-- Planned — Service, API, migrazione, validazioni, test e documentazione operativa.
+- Completed — Modello gerarchico, service, API, migrazione, validazioni, rollback e test automatici.
 
 ## Milestone 0.3 — Catalogo prodotti
 

@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 
-from app.api.v1 import vat_rates_router
+from app.api.v1 import categories_router, vat_rates_router
 
 app = FastAPI(
     title="DAMFOX Inventory",
@@ -10,6 +10,7 @@ app = FastAPI(
 )
 
 app.include_router(vat_rates_router)
+app.include_router(categories_router)
 
 
 @app.get("/")
