@@ -2,50 +2,41 @@
 
 Queste istruzioni sono obbligatorie per ogni attività svolta nel repository.
 
-## 1. Rilevare l'ambiente
+## 1. Sincronizzare sempre il contesto operativo
 
-Prima di interpretare la richiesta, leggere:
-
-- `docs/06_AI/WORKFLOWS/ENVIRONMENT_BOOTSTRAP.md`;
-- le regole seguenti.
-
-Verificare se il workspace dispone di un remote accessibile:
-
-```bash
-git remote get-url origin
-```
-
-L'assenza di `origin` è ammessa in Codex Cloud e non costituisce da sola una condizione di arresto.
-
-## 2. Sincronizzare o usare lo snapshot corrente
-
-### Remote `origin` presente e accessibile
-
-Eseguire:
+Prima di interpretare o eseguire una richiesta del maintainer:
 
 ```bash
 git fetch origin main
 ```
 
-Se il fetch fallisce, fermarsi e riportare l'errore.
+Se il fetch fallisce, fermarsi e riportare l'errore. Non lavorare usando istruzioni locali potenzialmente obsolete.
 
-Leggere tramite `git show origin/main:<percorso>`:
+## 2. Leggere la fonte di verità da `origin/main`
 
-- `AGENTS.md`;
-- `docs/06_AI/AI_CONSTITUTION.md`;
-- `docs/06_AI/AI_STATE.md`;
-- `docs/06_AI/CODEX_WORKFLOW.md`;
-- `docs/06_AI/GIT_WORKFLOW.md`;
-- indice, TASK o OPS richiesti;
-- decisioni, review e altri documenti AI indicati.
+Dopo il fetch, leggere sempre tramite `git show`:
 
-### Remote `origin` assente
+```bash
+git show origin/main:AGENTS.md
+git show origin/main:docs/06_AI/AI_CONSTITUTION.md
+git show origin/main:docs/06_AI/AI_STATE.md
+git show origin/main:docs/06_AI/CODEX_WORKFLOW.md
+git show origin/main:docs/06_AI/GIT_WORKFLOW.md
+```
 
-Usare il workspace fornito dall'ambiente come snapshot operativo della sorgente selezionata all'avvio del task.
+Per un task applicativo leggere inoltre:
 
-Leggere direttamente gli stessi file dal filesystem del workspace. Non tentare di configurare `origin`, non chiedere credenziali del server DAMFOX e non arrestarsi soltanto perché `git fetch origin main` non è disponibile.
+```bash
+git show origin/main:docs/06_AI/TASKS/TASK-XXXX.md
+```
 
-Fermarsi invece se i documenti richiesti mancano o se `AI_STATE.md`, gli indici e l'attività richiesta sono incoerenti.
+Per un'operation leggere:
+
+```bash
+git show origin/main:docs/06_AI/OPERATIONS/OPS-XXXX.md
+```
+
+Leggere da `origin/main` anche decisioni, review e altri documenti `06_AI` indicati dall'attività.
 
 ## 3. Documentazione tecnica su richiesta
 
@@ -58,9 +49,11 @@ Le cartelle seguenti non devono essere lette integralmente a ogni esecuzione:
 - `docs/04_UI/`
 - `docs/05_Project_Management/`
 
-Leggere soltanto i documenti richiesti dal task o strettamente necessari.
+Leggere soltanto i documenti richiesti dal task o strettamente necessari per comprenderne il perimetro.
 
-## 4. Proteggere il workspace
+## 4. Proteggere il working tree
+
+Il fetch e la lettura tramite `git show` non devono modificare il working tree.
 
 Non usare automaticamente:
 
@@ -72,43 +65,52 @@ Non usare automaticamente:
 - force push;
 - checkout o restore massivi.
 
-Queste operazioni sono consentite soltanto quando un file `OPS-XXXX.md` le autorizza esplicitamente.
+Queste operazioni sono consentite soltanto quando un file `OPS-XXXX.md` le autorizza esplicitamente e ne definisce la procedura.
 
-Non sovrascrivere, includere nello staging o pubblicare modifiche non correlate.
+Non sovrascrivere, includere nello staging o pubblicare modifiche locali non correlate.
 
 ## 5. Comandi sintetici
 
 ### `Esegui TASK-XXXX`
 
-1. applicare il bootstrap adatto all'ambiente;
-2. leggere `AI_STATE.md`, `TASK_INDEX.md` e il task richiesto;
-3. applicare Costituzione, workflow e decisioni;
-4. eseguire il task;
-5. produrre la Engineering Review;
-6. aggiornare lo stato previsto;
-7. pubblicare secondo le capacità dell'ambiente: push locale autorizzato oppure branch/pull request cloud.
+1. applicare questo bootstrap;
+2. leggere `AI_STATE.md` e `TASK_INDEX.md` da `origin/main`;
+3. leggere il task da `origin/main`;
+4. applicare `AI_CONSTITUTION.md`, `CODEX_WORKFLOW.md` e `GIT_WORKFLOW.md`;
+5. leggere soltanto il contesto tecnico richiesto;
+6. eseguire il task;
+7. produrre e pubblicare la Engineering Review;
+8. aggiornare lo stato operativo previsto dal task.
 
 ### `Esegui OPS-XXXX`
 
-Leggere l'indice Operations e l'operation richiesta, verificare lo stato Git reale ed eseguire esclusivamente la procedura autorizzata.
+1. applicare questo bootstrap;
+2. leggere `OPERATIONS/OPS_INDEX.md` e l'operation da `origin/main`;
+3. verificare lo stato Git reale;
+4. eseguire esclusivamente la procedura autorizzata;
+5. produrre il report operativo previsto.
 
 ### `Esegui l'ultimo task`
 
-Usare `current_task` in `AI_STATE.md` e verificare che risulti `Planned` in `TASK_INDEX.md`.
+Usare `current_task` in `AI_STATE.md` e verificare che lo stesso task risulti `Planned` in `TASK_INDEX.md`. In caso di incoerenza, fermarsi.
 
 ### `Esegui l'ultima operation`
 
-Individuare nell'indice la prima operation `Planned` con prerequisiti soddisfatti.
+Leggere `OPERATIONS/OPS_INDEX.md`, individuare l'operation `Planned` con numero più basso compatibile con i prerequisiti ed eseguirla. In caso di ambiguità, fermarsi.
 
 ### `Controlla ed esegui tutti i nuovi task`
 
-1. applicare il bootstrap adatto all'ambiente;
-2. leggere `docs/06_AI/WORKFLOWS/AUTONOMOUS_TASK_QUEUE.md`;
-3. eseguire in ordine i task `Planned` autorizzati;
-4. rileggere stato e coda dopo ogni task usando la fonte disponibile;
-5. proseguire finché la tranche è esaurita o si verifica una condizione di arresto.
+1. applicare questo bootstrap;
+2. leggere `docs/06_AI/WORKFLOWS/AUTONOMOUS_TASK_QUEUE.md` da `origin/main`;
+3. individuare tutti i task `Planned` eseguibili;
+4. eseguirli in ordine progressivo senza attendere un nuovo comando dopo ogni task;
+5. dopo ogni pubblicazione, eseguire un nuovo fetch e rileggere stato, indice, review e nuovi task;
+6. proseguire finché esistono task `Planned` con prerequisiti soddisfatti;
+7. fermarsi soltanto alle condizioni definite nel workflow della coda e mostrare il riepilogo finale.
 
 ## 6. Gerarchia delle regole
+
+In caso di conflitto tra istruzioni applicare questo ordine:
 
 1. decisione esplicita del maintainer;
 2. `AI_CONSTITUTION.md`;
