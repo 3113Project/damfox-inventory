@@ -2,7 +2,7 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy.orm import Session
 
 from app.core.exceptions import ConflictError, ResourceNotFoundError
@@ -20,9 +20,9 @@ def _http_error(error: Exception, code: int) -> HTTPException:
 
 
 @router.get("", response_model=list[ProductResponse])
-def read_products(db: DatabaseSession, family_id: int | None = None, q: str | None = None):
+def read_products(db: DatabaseSession, family_id: int | None = None, unit_of_measure_id: int | None = Query(default=None, gt=0), q: str | None = None):
     """List products."""
-    return product_service.list_products(db, family_id, q)
+    return product_service.list_products(db, family_id, unit_of_measure_id, q)
 
 
 @router.get("/{product_id}", response_model=ProductResponse)

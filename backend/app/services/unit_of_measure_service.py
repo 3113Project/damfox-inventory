@@ -27,8 +27,15 @@ def _unique(db: Session, code: str, exclude_id: int | None = None) -> None:
     if db.scalar(query.limit(1)) is not None:
         raise ConflictError(_DUPLICATE)
 
-def list_unit_measures(db: Session) -> list[UnitOfMeasure]:
-    return list(db.scalars(select(UnitOfMeasure).order_by(func.lower(UnitOfMeasure.code), UnitOfMeasure.id)).all())
+def list_unit_measures(db: Session, is_active: bool | None = None, q: str | None = None) -> list[UnitOfMeasure]:
+    query = select(UnitOfMeasure)
+    if is_active is not None:
+        query = query.where(UnitOfMeasure.is_active == is_active)
+    term = q.strip() if q is not None else ""
+    if term:
+        pattern = f"%{term}%"
+        query = query.where(UnitOfMeasure.code.ilike(pattern) | UnitOfMeasure.name.ilike(pattern) | UnitOfMeasure.symbol.ilike(pattern))
+    return list(db.scalars(query.order_by(func.lower(UnitOfMeasure.code), UnitOfMeasure.id)).all())
 
 def get_unit_measure(db: Session, unit_id: int) -> UnitOfMeasure:
     unit = db.get(UnitOfMeasure, unit_id)

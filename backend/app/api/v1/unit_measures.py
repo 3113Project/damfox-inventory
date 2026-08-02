@@ -14,8 +14,8 @@ def _error(exc: Exception, code: int) -> HTTPException:
     return HTTPException(status_code=code, detail=str(exc))
 
 @router.get("", response_model=list[UnitOfMeasureResponse])
-def read_unit_measures(db: DatabaseSession):
-    return unit_of_measure_service.list_unit_measures(db)
+def read_unit_measures(db: DatabaseSession, is_active: bool | None = None, q: str | None = None):
+    return unit_of_measure_service.list_unit_measures(db, is_active, q)
 
 @router.get("/{unit_id}", response_model=UnitOfMeasureResponse)
 def read_unit_measure(unit_id: int, db: DatabaseSession):

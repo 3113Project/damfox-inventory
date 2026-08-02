@@ -84,5 +84,32 @@ class UnitMeasureAPITestCase(unittest.TestCase):
         operations = schema["paths"]["/unit-measures/{unit_id}"]
         self.assertIn("patch", operations); self.assertNotIn("put", operations)
 
+    def test_unit_and_product_search_filters(self):
+        piece = self.create_unit("PZ", name="Piece", symbol="pc")
+        self.create_unit("KG", name="Kilogram", symbol="kg", is_active=False)
+        for query in ("q=pz", "q=PIECE", "q=PC", "is_active=true&q=piece"):
+            status, items = request("GET", f"/unit-measures?{query}")
+            self.assertEqual(status, 200); self.assertEqual([piece["id"]], [item["id"] for item in items])
+        status, items = request("GET", "/unit-measures?is_active=false")
+        self.assertEqual(status, 200); self.assertEqual(["KG"], [item["code"] for item in items])
+        self.assertEqual(request("GET", "/unit-measures?q=absent")[1], [])
+        status, family = request("POST", "/product-families", {"name": "Measured"})
+        self.assertEqual(status, 201)
+        status, product = request("POST", "/products", {"sku": "MEASURED", "name": "Measured product", "vat_rate_id": self.vat_id, "family_id": family["id"], "unit_of_measure_id": piece["id"]})
+        self.assertEqual(status, 201)
+        for term in ("pz", "PIECE", "pc"):
+            status, items = request("GET", f"/products?q={term}")
+            self.assertEqual(status, 200); self.assertEqual([product["id"]], [item["id"] for item in items])
+        status, items = request("GET", f"/products?unit_of_measure_id={piece['id']}&family_id={family['id']}&q=piece")
+        self.assertEqual(status, 200); self.assertEqual([product["id"]], [item["id"] for item in items])
+        self.assertEqual(request("GET", "/products?unit_of_measure_id=999999")[1], [])
+        self.assertEqual(request("GET", "/products?unit_of_measure_id=0")[0], 422)
+        status, schema = request("GET", "/openapi.json")
+        self.assertEqual(status, 200)
+        parameters = schema["paths"]["/products"]["get"]["parameters"]
+        self.assertIn("unit_of_measure_id", [parameter["name"] for parameter in parameters])
+        self.assertEqual(request("DELETE", f"/products/{product['id']}")[0], 204)
+        self.assertEqual(request("DELETE", f"/product-families/{family['id']}")[0], 204)
+
 if __name__ == "__main__":
     unittest.main()

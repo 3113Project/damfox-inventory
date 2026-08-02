@@ -42,16 +42,18 @@ def _unique(db: Session, sku: str) -> None:
         raise ConflictError("Product SKU already exists")
 
 
-def list_products(db: Session, family_id: int | None = None, q: str | None = None) -> list[Product]:
+def list_products(db: Session, family_id: int | None = None, unit_of_measure_id: int | None = None, q: str | None = None) -> list[Product]:
     """List products, optionally filtering by family."""
     query = select(Product)
     if family_id is not None:
         query = query.where(Product.family_id == family_id)
+    if unit_of_measure_id is not None:
+        query = query.where(Product.unit_of_measure_id == unit_of_measure_id)
     term = q.strip() if q is not None else ""
     if term:
         pattern = f"%{term}%"
-        query = query.outerjoin(ProductFamily, Product.family_id == ProductFamily.id).outerjoin(ProductBarcode, Product.id == ProductBarcode.product_id).where(
-            Product.sku.ilike(pattern) | Product.name.ilike(pattern) | Product.description.ilike(pattern) | Product.manufacturer_code.ilike(pattern) | ProductFamily.name.ilike(pattern) | ProductBarcode.value.ilike(pattern)
+        query = query.outerjoin(ProductFamily, Product.family_id == ProductFamily.id).outerjoin(ProductBarcode, Product.id == ProductBarcode.product_id).outerjoin(UnitOfMeasure, Product.unit_of_measure_id == UnitOfMeasure.id).where(
+            Product.sku.ilike(pattern) | Product.name.ilike(pattern) | Product.description.ilike(pattern) | Product.manufacturer_code.ilike(pattern) | ProductFamily.name.ilike(pattern) | ProductBarcode.value.ilike(pattern) | UnitOfMeasure.code.ilike(pattern) | UnitOfMeasure.name.ilike(pattern) | UnitOfMeasure.symbol.ilike(pattern)
         ).distinct()
     return list(db.scalars(query.order_by(Product.sku, Product.id)).all())
 
