@@ -1,6 +1,6 @@
-# Sistema Task e collaborazione AI
+# Sistema Task, Operation e collaborazione AI
 
-La cartella `06_AI` contiene la memoria operativa per definire, eseguire e verificare i task di DAMFOX Inventory.
+La cartella `06_AI` contiene la memoria operativa per definire, eseguire e verificare le attività assistite da AI di DAMFOX Inventory.
 
 ## Livelli del contesto
 
@@ -8,63 +8,69 @@ La cartella `06_AI` contiene la memoria operativa per definire, eseguire e verif
 
 [`../../AGENTS.md`](../../AGENTS.md) contiene le istruzioni minime che Codex deve applicare prima di ogni attività: fetch del remoto, lettura della memoria AI da `origin/main` e protezione del working tree.
 
+### Costituzione AI
+
+[AI_CONSTITUTION.md](AI_CONSTITUTION.md) definisce ruoli, fonti di verità, regole non negoziabili, differenza tra task e operation e criteri di completamento.
+
 ### Stato operativo
 
 [AI_STATE.md](AI_STATE.md) riassume il task corrente, l'ultima review, i prossimi task, i blocchi e le decisioni attive.
 
 ### Memoria operativa AI
 
-La cartella `06_AI` contiene task, review, decisioni e workflow. Per Codex, la versione ufficiale deve essere letta da `origin/main` tramite `git show` dopo il fetch obbligatorio.
+La versione ufficiale di task, operation, review, decisioni e workflow deve essere letta da `origin/main` tramite `git show` dopo il fetch obbligatorio.
 
 ### Knowledge di progetto
 
-Le cartelle `00_Project`–`05_Project_Management` contengono architettura, standard, database, regole di business, UI e gestione del progetto. Codex le legge solo quando il task le richiede o quando sono strettamente necessarie per comprenderne il perimetro.
+Le cartelle `00_Project`–`05_Project_Management` contengono architettura, standard, database, regole di business, UI e gestione del progetto. Codex le legge solo quando richieste dall'attività o strettamente necessarie.
 
-## Workflow di collaborazione
+## Ruoli
 
-Maintainer → ChatGPT prepara o revisiona il task e aggiorna GitHub → Codex legge bootstrap e stato remoto → Codex esegue il task localmente → Codex crea commit e push se autorizzato → Codex archivia una Engineering Review → ChatGPT legge GitHub ed esegue la review → il maintainer testa e approva.
+Maintainer → decide e approva.
 
-Il maintainer mantiene sempre il controllo su priorità, autorizzazioni, test reali e release.
+ChatGPT → Tech Lead: prepara task, operation e decisioni; revisiona GitHub.
 
-## Struttura
+Codex → Developer: opera localmente, implementa, testa, pubblica review e report.
 
-- [AI_STATE.md](AI_STATE.md): stato operativo corrente.
-- [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md): workflow obbligatorio di esecuzione.
-- [GIT_WORKFLOW.md](GIT_WORKFLOW.md): regole Git, commit e push.
-- [PROMPT_TEMPLATE.md](PROMPT_TEMPLATE.md): schema per prompt deterministici.
-- [TASK_TEMPLATE.md](TASK_TEMPLATE.md): modello standard di un task.
-- [TASK_INDEX.md](TASK_INDEX.md): registro cronologico dei task.
-- [TASKS/](TASKS/): task individuali.
-- [REVIEWS/](REVIEWS/): Engineering Reviews collegate ai task.
-- [DECISIONS/](DECISIONS/): decisioni operative nate dal lavoro AI.
-- [PROMPTS/](PROMPTS/): prompt riutilizzabili o versionati.
-- [WORKFLOWS/](WORKFLOWS/): workflow specializzati o storici.
+## Tipi di attività
 
-## Regola task-review
+### Task applicativi
 
-Ogni task produce una review tecnica ufficiale:
+I file `TASK-XXXX.md` riguardano sviluppo del prodotto, database, test, refactoring e documentazione funzionale.
+
+Ogni task produce:
 
 `TASK-XXXX.md` → `REVIEWS/REVIEW-XXXX.md`
 
-Le review usano uno dei verdetti:
+### Operation tecniche
 
-- APPROVATO
-- APPROVATO CON RISERVE
-- NON APPROVATO
-- NON APPLICABILE
+I file `OPS-XXXX.md` riguardano rebase, conflitti, sincronizzazione, pubblicazione, release, infrastruttura e manutenzione del repository.
+
+Quando previsto producono:
+
+`OPS-XXXX.md` → `OPERATIONS/REPORTS/OPS-XXXX-REPORT.md`
+
+## Struttura
+
+- [AI_CONSTITUTION.md](AI_CONSTITUTION.md): costituzione del workflow AI.
+- [AI_STATE.md](AI_STATE.md): stato operativo corrente.
+- [CODEX_WORKFLOW.md](CODEX_WORKFLOW.md): workflow obbligatorio di esecuzione.
+- [GIT_WORKFLOW.md](GIT_WORKFLOW.md): regole Git, commit e push.
+- [TASK_INDEX.md](TASK_INDEX.md): registro dei task applicativi.
+- [TASKS/](TASKS/): task individuali.
+- [REVIEWS/](REVIEWS/): Engineering Review dei task.
+- [OPERATIONS/](OPERATIONS/): operation tecniche, indice, template e report.
+- [DECISIONS/](DECISIONS/): decisioni operative e architetturali.
+- [PROMPTS/](PROMPTS/): prompt riutilizzabili o versionati.
+- [WORKFLOWS/](WORKFLOWS/): workflow specializzati o storici.
 
 ## Comandi sintetici
 
-Il maintainer può usare:
-
 ```text
 Esegui TASK-XXXX
-```
-
-oppure:
-
-```text
 Esegui l'ultimo task
+Esegui OPS-XXXX
+Esegui l'ultima operation
 ```
 
-In entrambi i casi Codex deve prima applicare `AGENTS.md`, leggere `AI_STATE.md`, verificare `TASK_INDEX.md` e caricare il task da `origin/main`.
+In ogni caso Codex deve prima applicare `AGENTS.md`, leggere la Costituzione AI e lo stato remoto, verificare l'indice pertinente e caricare l'attività da `origin/main`.
