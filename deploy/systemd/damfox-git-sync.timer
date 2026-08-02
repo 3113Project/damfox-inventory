@@ -1,0 +1,12 @@
+[Unit]
+Description=Run DAMFOX safe Git synchronization every five minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=5min
+RandomizedDelaySec=45s
+Persistent=true
+Unit=damfox-git-sync.service
+
+[Install]
+WantedBy=timers.target

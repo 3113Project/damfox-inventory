@@ -1,0 +1,25 @@
+[Unit]
+Description=DAMFOX safe Git synchronization
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=casa
+Group=casa
+WorkingDirectory=/srv/docker/damfox-inventory
+Environment=HOME=/home/casa
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/damfox-git-safe-sync
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/srv/docker/damfox-inventory
+ProtectHome=false
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+SystemCallArchitectures=native
