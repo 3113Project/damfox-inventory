@@ -6,6 +6,8 @@
 
 - Aggiunto il bootstrap frontend React/TypeScript con Vite, Router, TanStack Query, Docker Compose e collegamento API configurabile con CORS esplicito.
 - Aggiunta app shell responsive e accessibile con navigazione desktop/mobile, rotte iniziali, dashboard servizi, empty state e componenti UI riutilizzabili.
+- Reso operativo il catalogo prodotti frontend con lista responsive, ricerca e filtri server-side, dettaglio, creazione, modifica, lookup reali e gestione errori API.
+
 
 
 - Estesi filtri e ricerca catalogo per unità di misura, inclusi codice, nome, simbolo, stato attivo e combinazione con famiglia.
@@ -39,6 +41,8 @@
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+- Verificato il flusso create/list/detail/edit con test integrato e API PostgreSQL reali; rimosso il dato temporaneo al termine.
+
 
 - Verificati rendering e navigazione dell'app shell con 2 test frontend, lint e build di produzione.
 

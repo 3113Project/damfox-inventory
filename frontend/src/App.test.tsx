@@ -35,10 +35,14 @@ test("renders dashboard and connected backend status", async () => {
   expect(await screen.findByText("DAMFOX Inventory risponde correttamente.")).toBeInTheDocument()
 })
 
-test("navigates to a clear product empty state", () => {
-  vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("offline"))
+test("navigates to the real product catalog empty state", async () => {
+  vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+    const url = String(input)
+    if (url.endsWith("/")) return new Response(JSON.stringify({ software: "DAMFOX Inventory", version: "0.1.0", status: "online" }))
+    return new Response(JSON.stringify([]), { headers: { "Content-Type": "application/json" } })
+  })
   renderApp()
   fireEvent.click(screen.getByRole("link", { name: /Apri prodotti/ }))
   expect(screen.getByRole("heading", { name: "Prodotti" })).toBeInTheDocument()
-  expect(screen.getByRole("heading", { name: "Sezione in preparazione" })).toBeInTheDocument()
+  expect(await screen.findByRole("heading", { name: "Il catalogo è vuoto" })).toBeInTheDocument()
 })

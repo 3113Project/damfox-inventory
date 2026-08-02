@@ -2,6 +2,9 @@ import { Redirect, Route, Switch } from "react-router-dom"
 import { AppShell } from "./components/AppShell"
 import { Dashboard } from "./pages/Dashboard"
 import { PlaceholderPage } from "./pages/PlaceholderPage"
+import { ProductCatalog } from "./pages/ProductCatalog"
+import { ProductDetail } from "./pages/ProductDetail"
+import { ProductForm } from "./pages/ProductForm"
 import "./styles.css"
 
 export function App() {
@@ -9,9 +12,10 @@ export function App() {
     <AppShell>
       <Switch>
         <Route exact path="/" component={Dashboard} />
-        <Route path="/prodotti">
-          <PlaceholderPage title="Prodotti" description="Il catalogo prodotti sarà disponibile nel prossimo aggiornamento." />
-        </Route>
+        <Route exact path="/prodotti" component={ProductCatalog} />
+        <Route exact path="/prodotti/nuovo" component={ProductForm} />
+        <Route exact path="/prodotti/:productId/modifica" component={ProductForm} />
+        <Route exact path="/prodotti/:productId" component={ProductDetail} />
         <Route path="/categorie">
           <PlaceholderPage title="Categorie" description="La gestione delle categorie non è ancora disponibile in questa interfaccia." />
         </Route>

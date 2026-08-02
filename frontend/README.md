@@ -24,3 +24,14 @@ Le sezioni non ancora operative mostrano un empty state esplicito.
 I componenti base sono in `src/components/ui.tsx`; colori, spaziatura, superfici,
 stati e focus sono definiti come variabili in `src/styles.css`. La dashboard
 mostra solo lo stato reale del backend e scorciatoie alle rotte disponibili.
+
+## Catalogo prodotti
+
+La rotta `/prodotti` usa esclusivamente le API reali. Ricerca, filtro famiglia e
+filtro unità di misura sono inviati al backend come parametri query. Tabella,
+empty state, dettaglio e form sono responsive.
+
+Creazione e modifica caricano categorie, famiglie, aliquote IVA e unità di misura
+dalle rispettive API. Lo SKU è richiesto in creazione e sola lettura in modifica;
+l'unità di misura è sempre obbligatoria. Gli errori HTTP 404, 409 e 422 sono
+tradotti in messaggi comprensibili.

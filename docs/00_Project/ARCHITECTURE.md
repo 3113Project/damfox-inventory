@@ -62,7 +62,7 @@ Non risultano autenticazione o autorizzazione operative: esiste un modello User 
 
 ## Frontend
 
-Il frontend in `frontend/` offre una app shell responsiva con header, sidebar desktop, navigazione mobile e rotte per Dashboard, Prodotti, Categorie, Unità di misura e Impostazioni. La dashboard presenta lo stato reale del backend; le sezioni non implementate usano empty state espliciti. I componenti base e le variabili CSS costituiscono il design system iniziale. Consultare [UI_GUIDELINES.md](../04_UI/UI_GUIDELINES.md).
+Il frontend in `frontend/` offre una app shell responsiva e un verticale operativo per il catalogo prodotti. La lista, ricerca e filtri interrogano il backend tramite TanStack Query; dettaglio, creazione e modifica usano i contratti API reali e lookup server-side. Lo SKU resta immutabile e l'unità di misura è obbligatoria nel form. Le altre sezioni usano empty state espliciti. Consultare [UI_GUIDELINES.md](../04_UI/UI_GUIDELINES.md).
 
 ## Readiness e dipendenze
 
