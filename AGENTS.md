@@ -76,11 +76,13 @@ Non sovrascrivere, includere nello staging o pubblicare modifiche locali non cor
 1. applicare questo bootstrap;
 2. leggere `AI_STATE.md` e `TASK_INDEX.md` da `origin/main`;
 3. leggere il task da `origin/main`;
-4. applicare `AI_CONSTITUTION.md`, `CODEX_WORKFLOW.md` e `GIT_WORKFLOW.md`;
-5. leggere soltanto il contesto tecnico richiesto;
-6. eseguire il task;
-7. produrre e pubblicare la Engineering Review;
-8. aggiornare lo stato operativo previsto dal task.
+4. verificare che lo stato esatto del task sia `Planned`; la presenza del file non costituisce autorizzazione;
+5. rifiutare task `Completed`, `Superseded`, retrospettivi o marcati come archivio non eseguibile. In particolare, `TASK-0001`–`TASK-0007` sono storici e non possono essere rieseguiti senza una nuova autorizzazione registrata in un nuovo task o operation;
+6. applicare `AI_CONSTITUTION.md`, `CODEX_WORKFLOW.md` e `GIT_WORKFLOW.md`;
+7. leggere soltanto il contesto tecnico richiesto;
+8. eseguire il task;
+9. produrre e pubblicare la Engineering Review;
+10. aggiornare lo stato operativo previsto dal task.
 
 ### `Esegui OPS-XXXX`
 

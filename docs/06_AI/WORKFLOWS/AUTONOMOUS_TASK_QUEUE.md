@@ -54,6 +54,9 @@ Codex deve fermare la coda e riportare lo stato completo quando:
 ## Regole di sicurezza
 
 - La modalità autonoma non amplia il perimetro dei singoli task.
+- Solo i task con stato esatto `Planned` possono essere selezionati ed eseguiti.
+- I task `Completed`, `Superseded`, retrospettivi o marcati come archivio non eseguibile sono sempre ignorati; la presenza fisica del relativo file non costituisce autorizzazione.
+- `TASK-0001`–`TASK-0007` sono documenti storici non eseguibili e non possono entrare nella coda senza una nuova autorizzazione esplicita del maintainer registrata in un nuovo task o operation.
 - Codex non crea nuovi task applicativi di propria iniziativa.
 - Codex non trasforma automaticamente task `Blocked` in `Planned` salvo che una review o una regola già approvata lo autorizzi esplicitamente.
 - Codex non inventa requisiti mancanti.

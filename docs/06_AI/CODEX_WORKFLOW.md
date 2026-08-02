@@ -33,7 +33,9 @@ Se il fetch fallisce, fermarsi.
 
 ### `Esegui TASK-XXXX`
 
-Leggere da `origin/main` `TASK_INDEX.md`, `TASKS/TASK-XXXX.md` e i prerequisiti indicati. Eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md`.
+Leggere da `origin/main` `TASK_INDEX.md`, `TASKS/TASK-XXXX.md` e i prerequisiti indicati. Eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md` soltanto se lo stato esatto nell'indice è `Planned`.
+
+La presenza fisica di un file task non autorizza l'esecuzione. I task `Completed`, `Superseded`, retrospettivi o marcati come archivio non eseguibile devono essere rifiutati. In particolare, un comando `Esegui TASK-0001`–`Esegui TASK-0007` deve essere rifiutato perché riguarda task storici già completati, salvo una nuova autorizzazione esplicita del maintainer registrata in un nuovo task o operation.
 
 ### `Esegui l'ultimo task`
 
