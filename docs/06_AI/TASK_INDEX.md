@@ -26,8 +26,8 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0020 | Completed | Barcode, codice produttore e ricerca catalogo; richiede REVIEW-0019 approvata. |
 | TASK-0021 | Completed | Quality gate del catalogo base; richiede REVIEW-0020 approvata. |
 | TASK-0022 | Completed | Build backend riproducibile e readiness; richiede REVIEW-0021 approvata. |
-| TASK-0023 | Planned | Unità di misura base e collegamento facoltativo ai prodotti; esecuzione locale Docker/PostgreSQL. |
-| TASK-0024 | Blocked | Unità di misura obbligatoria nei nuovi payload Product; richiede REVIEW-0023 approvata. |
+| TASK-0023 | Completed | Unità di misura base e collegamento facoltativo ai prodotti; esecuzione locale Docker/PostgreSQL. |
+| TASK-0024 | Planned | Unità di misura obbligatoria nei nuovi payload Product; richiede REVIEW-0023 approvata. |
 | TASK-0025 | Blocked | Ricerca e filtri catalogo per unità di misura; richiede REVIEW-0024 approvata. |
 | TASK-0026 | Blocked | Quality gate locale della tranche unità di misura; richiede REVIEW-0025 approvata. |
 
