@@ -31,8 +31,8 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0025 | Completed | Ricerca e filtri catalogo per unità di misura; richiede REVIEW-0024 approvata. |
 | TASK-0026 | Completed | Quality gate locale della tranche unità di misura; richiede REVIEW-0025 approvata. |
 | TASK-0027 | Completed | Bootstrap frontend React/TypeScript, Docker Compose, configurazione API e CORS. |
-| TASK-0028 | Planned | App shell e navigazione responsiva; richiede REVIEW-0027 approvata. |
-| TASK-0029 | Blocked | Primo verticale frontend del catalogo prodotti; richiede REVIEW-0028 approvata. |
+| TASK-0028 | Completed | App shell e navigazione responsiva; richiede REVIEW-0027 approvata. |
+| TASK-0029 | Planned | Primo verticale frontend del catalogo prodotti; richiede REVIEW-0028 approvata. |
 | TASK-0030 | Blocked | Quality gate del primo frontend operativo; richiede REVIEW-0029 approvata. |
 
 <!-- Aggiungere qui i task futuri in ordine cronologico. -->
