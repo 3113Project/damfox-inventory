@@ -20,6 +20,9 @@
 
 ### Verified
 
+- Completato il quality gate delle fondamenta su immagine backend ricostruita senza cache e database PostgreSQL ricreato da zero.
+- Confermati import, avvio, stato, Swagger, OpenAPI, metadata, migrazioni, rollback e assenza di segreti tracciati.
+
 - Suite Categories: 6 test automatici verdi nel container; suite backend completa: 12 test verdi.
 - Verificati database vuoto → upgrade, downgrade/upgrade Categories e `alembic check`.
 

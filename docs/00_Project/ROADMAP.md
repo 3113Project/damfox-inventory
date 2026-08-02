@@ -12,6 +12,7 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 - Completed — Modulo IVA consolidato con validazioni, transazioni sicure, errori HTTP, PATCH e test automatici.
 - Completed — Baseline Alembic ripetibile per User e VAT, metadata deterministica e configurazione database unica.
 - Completed — Test automatici VAT eseguiti nel container.
+- Completed — Quality gate delle fondamenta su immagine backend senza cache e database ricreato da zero.
 
 ## Milestone 0.2 — Categorie
 

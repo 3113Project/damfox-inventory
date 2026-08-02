@@ -34,7 +34,7 @@ Il client web o mobile è futuro: non è presente nel repository.
 
 ## Flusso di una richiesta
 
-Per i CRUD IVA e Categories, i router `api/v1/vat_rates.py` e `api/v1/categories.py` riceve e valida la richiesta tramite schemi Pydantic, ottiene una sessione DB tramite dipendenza, delega al service e restituisce il modello ORM convertito nello schema di risposta. Il service usa SQLAlchemy per interrogare o modificare PostgreSQL; gli errori di risorsa non trovata sono gestiti dal router con HTTP 404.
+Per i CRUD IVA e Categories, i router `api/v1/vat_rates.py` e `api/v1/categories.py` ricevono e validano la richiesta tramite schemi Pydantic, ottengono una sessione DB tramite dipendenza, delegano al service e restituiscono il modello ORM convertito nello schema di risposta. Il service usa SQLAlchemy per interrogare o modificare PostgreSQL; gli errori di risorsa non trovata sono gestiti dal router con HTTP 404.
 
 ## Database e migrazioni
 

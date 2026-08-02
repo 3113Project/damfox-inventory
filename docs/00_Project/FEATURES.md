@@ -8,7 +8,7 @@
 
 ## In sviluppo
 
-- **Utenti:** esiste il modello ORM, senza API, autenticazione o migrazione effettiva della tabella.
+- **Utenti:** esiste il modello ORM, senza API o autenticazione; la tabella è presente nella baseline Alembic.
 
 ## Pianificato
 

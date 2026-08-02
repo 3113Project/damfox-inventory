@@ -8,12 +8,12 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 
 ```yaml
 state_version: 1
-current_milestone: Foundations
-current_task: TASK-0017
-current_task_status: Planned
-last_completed_task: TASK-0016
-last_review: REVIEW-0016
-last_review_verdict: APPROVATO
+current_milestone: Foundations Completed
+current_task: null
+current_task_status: null
+last_completed_task: TASK-0017
+last_review: REVIEW-0017
+last_review_verdict: APPROVATO CON RISERVE
 next_tasks: []
 blocked_tasks: []
 active_decisions:
@@ -38,4 +38,6 @@ source_of_truth: origin/main
 - Alembic è l’unica fonte di verità dello schema.
 - Il modulo VAT è consolidato e coperto da test automatici.
 - Categories è consolidato e coperto da test automatici.
-- Il quality gate delle fondamenta è il task successivo.
+- Il quality gate delle fondamenta è completato.
+- Products è autorizzato dalla REVIEW-0017, ma richiede un task esplicito prima dell’implementazione.
+- Il versionamento delle dipendenze resta una riserva non bloccante da risolvere prima della release 1.0.
