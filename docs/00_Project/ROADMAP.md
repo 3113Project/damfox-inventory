@@ -9,10 +9,9 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 - Completed — Struttura backend FastAPI.
 - Completed — Docker Compose e PostgreSQL 17.
 - Completed — SQLAlchemy, configurazione Pydantic Settings e struttura Alembic.
-- Completed — Modulo IVA CRUD.
+- Completed — Modulo IVA consolidato con validazioni, transazioni sicure, errori HTTP, PATCH e test automatici.
 - Completed — Baseline Alembic ripetibile per User e VAT, metadata deterministica e configurazione database unica.
-- In progress — Consolidamento del modulo IVA e introduzione dei test automatici.
-- Planned — Test minimi automatizzati.
+- Completed — Test automatici VAT eseguiti nel container.
 
 ## Milestone 0.2 — Categorie
 

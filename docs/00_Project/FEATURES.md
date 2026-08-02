@@ -3,7 +3,7 @@
 ## Implementato
 
 - **Backend FastAPI:** applicazione avviabile con endpoint di stato `GET /`.
-- **Aliquote IVA:** CRUD REST end-to-end su `/vat-rates/`, con modello, schemi Pydantic, service e migrazione dedicata.
+- **Aliquote IVA:** CRUD REST end-to-end su `/vat-rates/`, con PATCH parziale, validazioni `0.00–100.00`, errori deterministici, rollback transazionale, vincolo database e test automatici.
 
 ## In sviluppo
 

@@ -15,7 +15,7 @@ Descrivere lo stato reale delle entità persistenti e la direzione del modello d
 
 ### VATRate
 
-Il modello `VATRate` è implementato con `id`, `description` univoca, `rate`, `active`, `created_at` e `updated_at`. Il CRUD REST è disponibile e la migrazione della baseline è coerente con il modello.
+Il modello `VATRate` è implementato con `id`, `description` univoca fino a 50 caratteri, `rate`, `active`, `created_at` e `updated_at`. Il campo `rate` accetta valori da `0.00` a `100.00` inclusi, con massimo due decimali, secondo DECISION-0004. Il vincolo è applicato sia dagli schemi API sia da un `CHECK` PostgreSQL. Il CRUD usa PATCH per gli aggiornamenti parziali e dispone di test automatici.
 
 ### User
 
@@ -67,7 +67,7 @@ migrazioni. La baseline è stata verificata su database vuoto, una seconda
 esecuzione di `alembic upgrade head` è risultata idempotente e
 `alembic check` non ha rilevato operazioni mancanti.
 
-Category non è inclusa nella baseline.
+Una migrazione correttiva successiva alla baseline applica il vincolo `ck_vat_rates_rate_range`. Category non è inclusa nella baseline.
 
 ## Decisioni aperte
 
