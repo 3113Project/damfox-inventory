@@ -16,9 +16,9 @@ Descrivere l'architettura effettivamente presente e il debito tecnico osservabil
 
 ## Architettura runtime
 
-Il runtime verificabile è composto da Docker Compose, un servizio PostgreSQL 17 (`db`) e un servizio backend FastAPI (`backend`). Il backend dipende dal database, riceve il codice sorgente tramite volume `./backend:/app` e pubblica `18000:8000`. PostgreSQL persiste i dati nel volume locale `./postgres:/var/lib/postgresql/data`.
+Il runtime verificabile è composto da Docker Compose, PostgreSQL 17 (`db`), FastAPI (`backend`) e React/Vite (`frontend`). Il backend dipende dal database e pubblica `18000:8000`; il frontend dipende dalla readiness backend e pubblica `15173:5173`. PostgreSQL persiste i dati in `./postgres:/var/lib/postgresql/data`.
 
-Il client web o mobile è futuro: non è presente nel repository.
+Il client web usa TypeScript strict, React Router e TanStack Query. `VITE_API_BASE_URL` centralizza l'indirizzo pubblico dell'API visto dal browser.
 
 ## Architettura applicativa
 
@@ -50,7 +50,7 @@ Category è inclusa nella metadata e nella migrazione `a4c5d6e7f8b9`, verificata
 
 ## Configurazione
 
-`app.core.config.Settings` legge `DATABASE_URL` e `SQL_ECHO` dalla configurazione esterna. Docker Compose passa `backend/.env` al servizio backend e Alembic usa la stessa `DATABASE_URL` tramite `alembic/env.py`; `alembic.ini` non contiene un URL concorrente.
+`app.core.config.Settings` legge `DATABASE_URL`, `SQL_ECHO` e `CORS_ORIGINS` dalla configurazione esterna. Docker Compose autorizza esplicitamente `http://localhost:15173`, senza wildcard, e passa `backend/.env` al backend. Alembic usa la stessa `DATABASE_URL` tramite `alembic/env.py`.
 
 ## API
 
@@ -62,7 +62,7 @@ Non risultano autenticazione o autorizzazione operative: esiste un modello User 
 
 ## Frontend
 
-Il frontend è pianificato e non è implementato. Consultare [UI_GUIDELINES.md](../04_UI/UI_GUIDELINES.md).
+Il frontend in `frontend/` offre il bootstrap eseguibile e una pagina di stato del backend; non include ancora funzionalità business. Consultare [UI_GUIDELINES.md](../04_UI/UI_GUIDELINES.md).
 
 ## Readiness e dipendenze
 
@@ -70,7 +70,7 @@ Le dipendenze Python runtime dirette sono fissate a versioni esatte. PostgreSQL 
 
 ## Deployment attuale
 
-L'unico ambiente verificabile è Docker Compose con backend e PostgreSQL, rete predefinita Compose, volume dati locale e porta host `18000` per l'API.
+L'ambiente verificabile è Docker Compose con frontend, backend e PostgreSQL sulla rete predefinita Compose. Le porte host sono `15173` per il client e `18000` per l'API.
 
 ## Documenti correlati
 

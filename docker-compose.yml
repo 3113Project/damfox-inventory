@@ -26,6 +26,9 @@ services:
     env_file:
       - ./backend/.env
 
+    environment:
+      CORS_ORIGINS: http://localhost:15173
+
     container_name: damfox-backend
 
     restart: unless-stopped
@@ -38,4 +41,23 @@ services:
 
     depends_on:
       db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: damfox-frontend
+    restart: unless-stopped
+
+    environment:
+      VITE_API_BASE_URL: http://localhost:18000
+
+    ports:
+      - "15173:5173"
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+    depends_on:
+      backend:
         condition: service_healthy

@@ -95,6 +95,8 @@ site/
 # Build tools
 .pybuilder/
 target/
+frontend/node_modules/
+frontend/dist/
 
 # Jupyter / IPython
 .ipynb_checkpoints
