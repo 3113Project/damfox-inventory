@@ -8,6 +8,7 @@ from sqlalchemy import func, select, text
 from app.core.exceptions import ConflictError
 from app.database.session import SessionLocal
 from app.models.category import Category
+from app.models.product import Product
 from app.models.unit_of_measure import UnitOfMeasure
 from app.models.vat_rate import VATRate
 from app.services import unit_of_measure_service
@@ -64,15 +65,22 @@ class UnitMeasureAPITestCase(unittest.TestCase):
         status, product = request("POST", "/products", {"sku": "WEIGHT-1", "name": "Weighted", "category_id": self.category_id, "vat_rate_id": self.vat_id, "unit_of_measure_id": unit["id"]})
         self.assertEqual(status, 201, product); self.assertEqual(product["unit_of_measure_id"], unit["id"])
         self.assertEqual(request("DELETE", f"/unit-measures/{unit['id']}")[0], 409)
-        status, product = request("PATCH", f"/products/{product['id']}", {"unit_of_measure_id": None})
-        self.assertEqual(status, 200); self.assertIsNone(product["unit_of_measure_id"])
+        self.assertEqual(request("PATCH", f"/products/{product['id']}", {"unit_of_measure_id": None})[0], 422)
+        self.assertEqual(request("DELETE", f"/products/{product['id']}")[0], 204)
         self.assertEqual(request("DELETE", f"/unit-measures/{unit['id']}")[0], 204)
         self.assertEqual(request("POST", "/products", {"sku": "BAD", "name": "Bad", "vat_rate_id": self.vat_id, "unit_of_measure_id": 999999})[0], 404)
 
-    def test_optional_product_and_openapi(self):
-        status, product = request("POST", "/products", {"sku": "NO-UOM", "name": "Legacy", "vat_rate_id": self.vat_id})
-        self.assertEqual(status, 201, product); self.assertIsNone(product["unit_of_measure_id"])
+    def test_required_create_historical_patch_and_openapi(self):
+        self.assertEqual(request("POST", "/products", {"sku": "NO-UOM", "name": "Invalid", "vat_rate_id": self.vat_id})[0], 422)
+        self.assertEqual(request("POST", "/products", {"sku": "NULL-UOM", "name": "Invalid", "vat_rate_id": self.vat_id, "unit_of_measure_id": None})[0], 422)
+        unit = self.create_unit("EA")
+        with SessionLocal() as db:
+            historical = Product(sku="HISTORICAL", name="Historical", vat_rate_id=self.vat_id, unit_of_measure_id=None)
+            db.add(historical); db.commit(); db.refresh(historical); product_id = historical.id
+        status, product = request("PATCH", f"/products/{product_id}", {"unit_of_measure_id": unit["id"]})
+        self.assertEqual(status, 200); self.assertEqual(product["unit_of_measure_id"], unit["id"])
         status, schema = request("GET", "/openapi.json"); self.assertEqual(status, 200)
+        self.assertIn("unit_of_measure_id", schema["components"]["schemas"]["ProductCreate"]["required"])
         operations = schema["paths"]["/unit-measures/{unit_id}"]
         self.assertIn("patch", operations); self.assertNotIn("put", operations)
 

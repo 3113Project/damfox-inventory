@@ -39,7 +39,7 @@ Il modello base fornisce `id`, `created_at` e `updated_at` ai modelli che lo ere
 
 ### Product
 
-Il modello `Product` è implementato con SKU immutabile, nome, descrizione facoltativa, Category facoltativa, VAT obbligatoria, UnitOfMeasure facoltativa, stato attivo e timestamp. Lo SKU è univoco senza distinzione tra maiuscole e minuscole tramite indice PostgreSQL normalizzato. La cancellazione fisica è consentita finché non esistono riferimenti operativi e sarà rivalutata con prezzi, fornitori e magazzino.
+Il modello `Product` è implementato con SKU immutabile, nome, descrizione facoltativa, Category facoltativa, VAT obbligatoria, UnitOfMeasure e stato attivo. `unit_of_measure_id` resta nullable nel database per compatibilità con righe storiche, ma è obbligatorio nei nuovi payload `ProductCreate`; `ProductUpdate` può ometterlo ma non impostarlo a `NULL`. Lo SKU è univoco senza distinzione tra maiuscole e minuscole tramite indice PostgreSQL normalizzato. La cancellazione fisica è consentita finché non esistono riferimenti operativi e sarà rivalutata con prezzi, fornitori e magazzino.
 
 ### Category
 

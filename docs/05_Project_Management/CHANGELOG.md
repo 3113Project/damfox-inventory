@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Resa obbligatoria `unit_of_measure_id` per i nuovi Product API, mantenendo nullable la colonna storica e vietando PATCH a `NULL`.
+
 - Aggiunta l'anagrafica UnitOfMeasure con CRUD PATCH, codice univoco normalizzato e cancellazione protetta.
 - Aggiunta a Product l'associazione facoltativa `unit_of_measure_id` con FK `RESTRICT` e migrazione reversibile.
 

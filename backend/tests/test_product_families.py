@@ -5,6 +5,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from sqlalchemy import text
 from app.database.session import SessionLocal
+from app.models.unit_of_measure import UnitOfMeasure
 from app.models.vat_rate import VATRate
 
 def request(method, path, payload=None):
@@ -18,11 +19,11 @@ def request(method, path, payload=None):
 class ProductFamilyTest(unittest.TestCase):
     def setUp(self):
         with SessionLocal() as db:
-            db.execute(text("TRUNCATE products, product_families, categories, vat_rates RESTART IDENTITY CASCADE")); vat=VATRate(description="VAT",rate=Decimal("22"),active=True); db.add(vat); db.commit(); db.refresh(vat); self.vat_id=vat.id
+            db.execute(text("TRUNCATE products, product_families, unit_measures, categories, vat_rates RESTART IDENTITY CASCADE")); vat=VATRate(description="VAT",rate=Decimal("22"),active=True); unit=UnitOfMeasure(code="PZ",name="Piece"); db.add_all([vat,unit]); db.commit(); db.refresh(vat); db.refresh(unit); self.vat_id=vat.id; self.unit_id=unit.id
     def family(self,name=" Tools "):
         status,body=request("POST","/product-families",{"name":name,"description":" "}); self.assertEqual(status,201,body); return body
     def product(self,family_id=None):
-        status,body=request("POST","/products",{"sku":"P1","name":"Product","vat_rate_id":self.vat_id,"family_id":family_id}); self.assertEqual(status,201,body); return body
+        status,body=request("POST","/products",{"sku":"P1","name":"Product","vat_rate_id":self.vat_id,"unit_of_measure_id":self.unit_id,"family_id":family_id}); self.assertEqual(status,201,body); return body
     def test_crud_association_filter_and_protected_delete(self):
         family=self.family(); product=self.product(family["id"])
         status,items=request("GET",f"/products?family_id={family['id']}"); self.assertEqual(status,200); self.assertEqual([product["id"]],[item["id"] for item in items])
@@ -31,7 +32,7 @@ class ProductFamilyTest(unittest.TestCase):
         self.assertEqual(request("DELETE",f"/product-families/{family['id']}")[0],204)
     def test_duplicate_missing_family_and_patch(self):
         family=self.family(); self.assertEqual(request("POST","/product-families",{"name":"tools"})[0],409)
-        self.assertEqual(request("POST","/products",{"sku":"P1","name":"P","vat_rate_id":self.vat_id,"family_id":999})[0],404)
+        self.assertEqual(request("POST","/products",{"sku":"P1","name":"P","vat_rate_id":self.vat_id,"unit_of_measure_id":self.unit_id,"family_id":999})[0],404)
         status,body=request("PATCH",f"/product-families/{family['id']}",{"name":"Updated"}); self.assertEqual(status,200); self.assertEqual(body["name"],"Updated")
     def test_openapi(self):
         status,schema=request("GET","/openapi.json"); self.assertEqual(status,200); self.assertNotIn("put",schema["paths"]["/product-families/{family_id}"]); self.assertIn("family_id",schema["paths"]["/products"]["get"]["parameters"][0]["name"])

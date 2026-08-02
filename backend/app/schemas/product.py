@@ -24,7 +24,7 @@ class ProductCreate(BaseModel):
     category_id: int | None = Field(default=None, gt=0)
     vat_rate_id: int = Field(gt=0)
     family_id: int | None = Field(default=None, gt=0)
-    unit_of_measure_id: int | None = Field(default=None, gt=0)
+    unit_of_measure_id: int = Field(gt=0)
     is_active: bool = True
 
     _normalize_description = field_validator("description")(_description)
@@ -43,7 +43,7 @@ class ProductUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     _normalize_description = field_validator("description")(_description)
 
-    @field_validator("name", "vat_rate_id", "is_active")
+    @field_validator("name", "vat_rate_id", "unit_of_measure_id", "is_active")
     @classmethod
     def reject_null_required_fields(cls, value: object) -> object:
         if value is None:

@@ -5,6 +5,7 @@ from urllib.error import HTTPError
 from urllib.request import Request,urlopen
 from sqlalchemy import text
 from app.database.session import SessionLocal
+from app.models.unit_of_measure import UnitOfMeasure
 from app.models.vat_rate import VATRate
 
 def request(method,path,payload=None):
@@ -15,9 +16,9 @@ def request(method,path,payload=None):
 class IdentifierTest(unittest.TestCase):
  def setUp(self):
   with SessionLocal() as db:
-   db.execute(text("TRUNCATE product_barcodes, products, product_families, categories, vat_rates RESTART IDENTITY CASCADE")); vat=VATRate(description="VAT",rate=Decimal("22"),active=True);db.add(vat);db.commit();db.refresh(vat);self.vat=vat.id
+   db.execute(text("TRUNCATE product_barcodes, products, product_families, unit_measures, categories, vat_rates RESTART IDENTITY CASCADE")); vat=VATRate(description="VAT",rate=Decimal("22"),active=True);unit=UnitOfMeasure(code="PZ",name="Piece");db.add_all([vat,unit]);db.commit();db.refresh(vat);db.refresh(unit);self.vat=vat.id;self.unit=unit.id
   _,family=request("POST","/product-families",{"name":"Fasteners"});self.family=family["id"]
-  _,product=request("POST","/products",{"sku":"SKU-SEARCH","name":"Steel Bolt","description":"Strong fastener","manufacturer_code":"MFG-77","family_id":self.family,"vat_rate_id":self.vat});self.product=product["id"]
+  _,product=request("POST","/products",{"sku":"SKU-SEARCH","name":"Steel Bolt","description":"Strong fastener","manufacturer_code":"MFG-77","family_id":self.family,"vat_rate_id":self.vat,"unit_of_measure_id":self.unit});self.product=product["id"]
  def test_multiple_barcodes_zeroes_duplicate_and_delete(self):
   status,first=request("POST",f"/products/{self.product}/barcodes",{"value":" 001234 "});self.assertEqual(status,201);self.assertEqual(first["value"],"001234")
   self.assertEqual(request("POST",f"/products/{self.product}/barcodes",{"value":"ABC"})[0],201)

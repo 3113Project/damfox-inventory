@@ -9,6 +9,7 @@ from urllib.request import Request, urlopen
 from sqlalchemy import text
 from app.database.session import SessionLocal
 from app.models.category import Category
+from app.models.unit_of_measure import UnitOfMeasure
 from app.models.vat_rate import VATRate
 
 
@@ -27,14 +28,15 @@ def request(method: str, path: str, payload=None):
 class ProductAPITestCase(unittest.TestCase):
     def setUp(self):
         with SessionLocal() as db:
-            db.execute(text("TRUNCATE products, categories, vat_rates RESTART IDENTITY CASCADE"))
+            db.execute(text("TRUNCATE products, unit_measures, categories, vat_rates RESTART IDENTITY CASCADE"))
             vat = VATRate(description="Standard", rate=Decimal("22.00"), active=True)
             category = Category(name="Hardware", active=True)
-            db.add_all([vat, category]); db.commit(); db.refresh(vat); db.refresh(category)
-            self.vat_id, self.category_id = vat.id, category.id
+            unit = UnitOfMeasure(code="PZ", name="Piece", symbol="pc")
+            db.add_all([vat, category, unit]); db.commit(); db.refresh(vat); db.refresh(category); db.refresh(unit)
+            self.vat_id, self.category_id, self.unit_id = vat.id, category.id, unit.id
 
     def create_product(self, sku="SKU-001", **changes):
-        payload = {"sku": sku, "name": " Product ", "description": "   ", "category_id": self.category_id, "vat_rate_id": self.vat_id, "is_active": True}
+        payload = {"sku": sku, "name": " Product ", "description": "   ", "category_id": self.category_id, "vat_rate_id": self.vat_id, "unit_of_measure_id": self.unit_id, "is_active": True}
         payload.update(changes)
         status, body = request("POST", "/products", payload)
         self.assertEqual(status, 201, body)
@@ -52,13 +54,13 @@ class ProductAPITestCase(unittest.TestCase):
 
     def test_normalized_duplicate_and_rollback(self):
         self.create_product(" ABC ")
-        self.assertEqual(request("POST", "/products", {"sku": "abc", "name": "Other", "vat_rate_id": self.vat_id})[0], 409)
+        self.assertEqual(request("POST", "/products", {"sku": "abc", "name": "Other", "vat_rate_id": self.vat_id, "unit_of_measure_id": self.unit_id})[0], 409)
         self.create_product("DEF")
 
     def test_foreign_keys_and_validation(self):
-        self.assertEqual(request("POST", "/products", {"sku": "A", "name": "A", "vat_rate_id": 999})[0], 404)
-        self.assertEqual(request("POST", "/products", {"sku": "A", "name": "A", "vat_rate_id": self.vat_id, "category_id": 999})[0], 404)
-        for payload in ({"sku": " ", "name": "A", "vat_rate_id": self.vat_id}, {"sku": "A", "name": " ", "vat_rate_id": self.vat_id}, {"sku": "A", "name": "A", "vat_rate_id": None}):
+        self.assertEqual(request("POST", "/products", {"sku": "A", "name": "A", "vat_rate_id": 999, "unit_of_measure_id": self.unit_id})[0], 404)
+        self.assertEqual(request("POST", "/products", {"sku": "A", "name": "A", "vat_rate_id": self.vat_id, "category_id": 999, "unit_of_measure_id": self.unit_id})[0], 404)
+        for payload in ({"sku": " ", "name": "A", "vat_rate_id": self.vat_id, "unit_of_measure_id": self.unit_id}, {"sku": "A", "name": " ", "vat_rate_id": self.vat_id, "unit_of_measure_id": self.unit_id}, {"sku": "A", "name": "A", "vat_rate_id": None}):
             self.assertEqual(request("POST", "/products", payload)[0], 422)
 
     def test_openapi_uses_patch_not_put(self):
