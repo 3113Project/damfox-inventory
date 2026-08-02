@@ -22,6 +22,7 @@ class ProductCreate(BaseModel):
     description: str | None = Field(default=None, max_length=2000)
     category_id: int | None = Field(default=None, gt=0)
     vat_rate_id: int = Field(gt=0)
+    family_id: int | None = Field(default=None, gt=0)
     is_active: bool = True
 
     _normalize_description = field_validator("description")(_description)
@@ -32,6 +33,7 @@ class ProductUpdate(BaseModel):
     description: str | None = Field(default=None, max_length=2000)
     category_id: int | None = Field(default=None, gt=0)
     vat_rate_id: int | None = Field(default=None, gt=0)
+    family_id: int | None = Field(default=None, gt=0)
     is_active: bool | None = None
 
     model_config = ConfigDict(extra="forbid")
@@ -52,6 +54,7 @@ class ProductResponse(BaseModel):
     description: str | None
     category_id: int | None
     vat_rate_id: int
+    family_id: int | None
     is_active: bool
     created_at: datetime
     updated_at: datetime

@@ -18,6 +18,7 @@ class Product(BaseModel):
         Index("uq_products_sku_normalized", text("lower(btrim(sku))"), unique=True),
         Index("ix_products_category_id", "category_id"),
         Index("ix_products_vat_rate_id", "vat_rate_id"),
+        Index("ix_products_family_id", "family_id"),
     )
 
     sku: Mapped[str] = mapped_column(String(64), nullable=False)
@@ -25,7 +26,9 @@ class Product(BaseModel):
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     category_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id", ondelete="RESTRICT"), nullable=True)
     vat_rate_id: Mapped[int] = mapped_column(ForeignKey("vat_rates.id", ondelete="RESTRICT"), nullable=False)
+    family_id: Mapped[int | None] = mapped_column(ForeignKey("product_families.id", ondelete="RESTRICT"), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default="true")
 
     category: Mapped[object | None] = relationship("Category")
     vat_rate: Mapped[object] = relationship("VATRate")
+    family: Mapped[object | None] = relationship("ProductFamily", back_populates="products")

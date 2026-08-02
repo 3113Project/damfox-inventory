@@ -6,6 +6,7 @@
 - **Aliquote IVA:** CRUD REST end-to-end su `/vat-rates/`, con PATCH parziale, validazioni `0.00–100.00`, errori deterministici, rollback transazionale, vincolo database e test automatici.
 - **Categorie:** CRUD REST gerarchico su `/categories`, PATCH parziale, nomi univoci per fratelli ignorando maiuscole e spazi esterni, cicli vietati, cancellazione dei nodi padre protetta e test automatici.
 - **Prodotti:** CRUD REST su `/products` con SKU immutabile e univoco senza distinzione di maiuscole, Category facoltativa, VAT obbligatoria e PATCH parziale.
+- **Famiglie prodotto:** CRUD su `/product-families`, associazione facoltativa e filtro Products; nessun effetto commerciale.
 
 ## In sviluppo
 

@@ -19,9 +19,9 @@ def _http_error(error: Exception, code: int) -> HTTPException:
 
 
 @router.get("", response_model=list[ProductResponse])
-def read_products(db: DatabaseSession):
+def read_products(db: DatabaseSession, family_id: int | None = None):
     """List products."""
-    return product_service.list_products(db)
+    return product_service.list_products(db, family_id)
 
 
 @router.get("/{product_id}", response_model=ProductResponse)

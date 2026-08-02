@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Aggiunte Product Families, associazione facoltativa Products, cancellazione protetta e filtro per famiglia.
+
 - Implementato il nucleo Products con SKU immutabile, Category facoltativa, VAT obbligatoria, CRUD PATCH e migrazione reversibile.
 
 - Completato il modulo Categories con modello gerarchico, schemi, service CRUD, router e PATCH parziale.
@@ -21,6 +23,8 @@
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+
+- Suite con Product Families: 19 test verdi e migrazione reversibile verificata.
 
 - Suite backend con Products: 16 test verdi; verificati SKU normalizzato, FK, OpenAPI e ciclo migrazione Products.
 
