@@ -8,14 +8,26 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 
 ```yaml
 state_version: 1
-current_milestone: Foundations Completed
-current_task: null
-current_task_status: null
+current_milestone: Product Catalog
+current_task: TASK-0018
+current_task_status: Planned
 last_completed_task: TASK-0017
 last_review: REVIEW-0017
 last_review_verdict: APPROVATO CON RISERVE
-next_tasks: []
-blocked_tasks: []
+next_tasks:
+  - TASK-0019
+  - TASK-0020
+  - TASK-0021
+  - TASK-0022
+blocked_tasks:
+  - task: TASK-0019
+    reason: Richiede REVIEW-0018 approvata.
+  - task: TASK-0020
+    reason: Richiede REVIEW-0019 approvata.
+  - task: TASK-0021
+    reason: Richiede REVIEW-0020 approvata.
+  - task: TASK-0022
+    reason: Richiede REVIEW-0021 approvata.
 active_decisions:
   - DECISION-0001
   - DECISION-0002
@@ -30,14 +42,13 @@ source_of_truth: origin/main
 - Prima dell’esecuzione, verificare che il task risulti `Planned` anche in `TASK_INDEX.md`.
 - `last_review` indica la review da leggere come prerequisito più recente.
 - I task elencati in `blocked_tasks` non devono essere eseguiti finché la condizione indicata non è soddisfatta.
+- Nella coda autonoma, un task successivo può passare da `Blocked` a `Planned` solo dopo una review approvata che lo autorizzi esplicitamente.
 - In caso di incoerenza tra questo file e `TASK_INDEX.md`, fermarsi e segnalarla senza scegliere autonomamente quale stato applicare.
 
 ## Contesto corrente
 
-- La baseline database è consolidata.
-- Alembic è l’unica fonte di verità dello schema.
-- Il modulo VAT è consolidato e coperto da test automatici.
-- Categories è consolidato e coperto da test automatici.
-- Il quality gate delle fondamenta è completato.
-- Products è autorizzato dalla REVIEW-0017, ma richiede un task esplicito prima dell’implementazione.
-- Il versionamento delle dipendenze resta una riserva non bloccante da risolvere prima della release 1.0.
+- Le fondamenta database, VAT e Categories hanno superato il quality gate.
+- La milestone attiva è il catalogo prodotti.
+- TASK-0018 realizza il nucleo Products senza anticipare famiglie, barcode, fornitori, prezzi o magazzino.
+- TASK-0019–TASK-0022 formano una coda sequenziale; ciascun task deve essere sbloccato dalla review del precedente.
+- Il versionamento delle dipendenze resta una riserva non bloccante e verrà affrontato da TASK-0022.
