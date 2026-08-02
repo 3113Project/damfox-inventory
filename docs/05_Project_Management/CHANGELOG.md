@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Fissate le versioni delle dipendenze Python dirette e aggiunti healthcheck PostgreSQL/backend con script readiness riutilizzabile.
+
 - Aggiunti barcode multipli, codice produttore e ricerca catalogo case-insensitive senza dipendenze esterne.
 
 - Aggiunte Product Families, associazione facoltativa Products, cancellazione protetta e filtro per famiglia.
@@ -25,6 +27,8 @@
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+
+- Build senza cache con versioni fissate, readiness con timeout, database vuoto e suite catalogo verificati.
 
 - Quality gate catalogo base: build senza cache, database vuoto, 22 test, OpenAPI, metadata e ciclo completo delle revisioni catalogo verificati.
 

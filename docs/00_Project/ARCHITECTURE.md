@@ -64,6 +64,10 @@ Non risultano autenticazione o autorizzazione operative: esiste un modello User 
 
 Il frontend è pianificato e non è implementato. Consultare [UI_GUIDELINES.md](../04_UI/UI_GUIDELINES.md).
 
+## Readiness e dipendenze
+
+Le dipendenze Python runtime dirette sono fissate a versioni esatte. PostgreSQL espone un healthcheck `pg_isready`; l’immagine backend verifica lo stato applicativo tramite `scripts/wait_for_backend.py`, riutilizzabile anche prima dei test.
+
 ## Deployment attuale
 
 L'unico ambiente verificabile è Docker Compose con backend e PostgreSQL, rete predefinita Compose, volume dati locale e porta host `18000` per l'API.
