@@ -10,7 +10,8 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 - Completed — Docker Compose e PostgreSQL 17.
 - Completed — SQLAlchemy, configurazione Pydantic Settings e struttura Alembic.
 - Completed — Modulo IVA CRUD.
-- In progress — Consolidamento migrazioni: la migrazione utenti è vuota e la migrazione IVA non riflette i timestamp del modello.
+- Completed — Baseline Alembic ripetibile per User e VAT, metadata deterministica e configurazione database unica.
+- In progress — Consolidamento del modulo IVA e introduzione dei test automatici.
 - Planned — Test minimi automatizzati.
 
 ## Milestone 0.2 — Categorie

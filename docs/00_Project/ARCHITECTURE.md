@@ -38,20 +38,20 @@ Per il CRUD IVA, il router `api/v1/vat_rates.py` riceve e valida la richiesta tr
 
 ## Database e migrazioni
 
-SQLAlchemy e Alembic sono presenti. `alembic/env.py` espone la metadata ORM per l'autogenerazione. Esistono revisioni per utenti e aliquote IVA.
+Alembic è l’unica fonte di verità dello schema. Le due revisioni lineari creano
+`users` e `vat_rates` con ID, timestamp, chiavi primarie e vincoli univoci
+coerenti con i modelli inclusi nella metadata. L’avvio FastAPI non esegue
+`Base.metadata.create_all()`.
 
-Debito tecnico osservabile:
+La baseline è stata verificata partendo da PostgreSQL vuoto, applicando due volte
+`alembic upgrade head` e controllando con `alembic check` l’assenza di
+differenze tra metadata e database.
 
-- `main.py` esegue `Base.metadata.create_all(bind=engine)`, mentre Alembic è la fonte di verità prevista dalla documentazione.
-- La revisione `create_users_table` non crea alcuna tabella.
-- La revisione IVA non contiene i timestamp ereditati da `BaseModel`.
-- Il modello Category non è importato nella metadata, non ha migrazione e usa import di moduli non presenti (`app.models.base` e `app.schemas.base`).
-
-> TODO: verificare con il maintainer la strategia definitiva di inizializzazione e allineamento schema/migrazioni.
+Category resta esclusa dalla metadata e dalle migrazioni fino al task dedicato.
 
 ## Configurazione
 
-`app.core.config.Settings` legge `DATABASE_URL` e `SQL_ECHO` dal file `.env`. Docker Compose passa `backend/.env` al servizio backend. Alembic possiede anche un URL nel proprio file di configurazione.
+`app.core.config.Settings` legge `DATABASE_URL` e `SQL_ECHO` dalla configurazione esterna. Docker Compose passa `backend/.env` al servizio backend e Alembic usa la stessa `DATABASE_URL` tramite `alembic/env.py`; `alembic.ini` non contiene un URL concorrente.
 
 ## API
 
@@ -70,8 +70,6 @@ Il frontend è pianificato e non è implementato. Consultare [UI_GUIDELINES.md](
 L'unico ambiente verificabile è Docker Compose con backend e PostgreSQL, rete predefinita Compose, volume dati locale e porta host `18000` per l'API.
 
 ## Decisioni ancora aperte
-
-> TODO: verificare con il maintainer la configurazione unica dell'URL database fra backend e Alembic.
 
 > TODO: verificare con il maintainer il modello dati definitivo per categorie e il piano di integrazione del relativo modulo.
 

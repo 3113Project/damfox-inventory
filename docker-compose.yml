@@ -16,6 +16,9 @@ services:
   backend:
     build: ./backend
 
+    env_file:
+      - ./backend/.env
+
     container_name: damfox-backend
 
     restart: unless-stopped

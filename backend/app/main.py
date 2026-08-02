@@ -1,12 +1,6 @@
+"""DAMFOX Inventory FastAPI application."""
+
 from fastapi import FastAPI
-
-from app.database.base import Base
-from backend.app.database.session import engine
-
-# importa i modelli
-from app.models.user import User
-
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="DAMFOX Inventory",
