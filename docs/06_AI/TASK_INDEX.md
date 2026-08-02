@@ -19,7 +19,7 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0013 | Completed | Adozione delle Engineering Reviews e nuova struttura documentale AI. |
 | TASK-0014 | Completed | Consolidamento della baseline database, metadata, Alembic e configurazione comune; review archiviata in `REVIEWS/REVIEW-0014.md`. |
 | TASK-0015 | Completed | Consolidamento del modulo VAT; review archiviata in `REVIEWS/REVIEW-0015.md`. |
-| TASK-0016 | Planned | Completamento end-to-end di Categories; autorizzato da `REVIEWS/REVIEW-0015.md`. |
-| TASK-0017 | Blocked | Quality gate finale delle fondamenta; richiede REVIEW-0016. |
+| TASK-0016 | Completed | Completamento end-to-end di Categories; review archiviata in `REVIEWS/REVIEW-0016.md`. |
+| TASK-0017 | Planned | Quality gate finale delle fondamenta; richiede REVIEW-0016. |
 
 <!-- Aggiungere qui i task futuri in ordine cronologico. -->
