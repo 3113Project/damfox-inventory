@@ -9,16 +9,13 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 ```yaml
 state_version: 1
 current_milestone: Primo frontend operativo
-current_task: TASK-0029
+current_task: TASK-0030
 current_task_status: Planned
-last_completed_task: TASK-0028
-last_review: REVIEW-0028
+last_completed_task: TASK-0029
+last_review: REVIEW-0029
 last_review_verdict: APPROVATO
-next_tasks:
-  - TASK-0030
-blocked_tasks:
-  - task: TASK-0030
-    reason: Richiede REVIEW-0029 approvata.
+next_tasks: []
+blocked_tasks: []
 active_decisions:
   - DECISION-0001
   - DECISION-0002
@@ -45,5 +42,5 @@ execution_mode: local_vscode_server
 - DECISION-0005 stabilisce React, TypeScript, Vite, React Router e TanStack Query come fondazione frontend.
 - TASK-0027 ha creato il progetto frontend e l'integrazione runtime.
 - TASK-0028 ha prodotto il primo app shell visibile e responsivo.
-- TASK-0029 rende operativo il catalogo prodotti dal browser ed è il task attivo.
-- TASK-0030 esegue il quality gate end-to-end e chiude la tranche.
+- TASK-0029 ha reso operativo il catalogo prodotti dal browser.
+- TASK-0030 esegue il quality gate end-to-end, è il task attivo e chiude la tranche.
