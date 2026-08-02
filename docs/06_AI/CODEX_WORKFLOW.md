@@ -1,192 +1,81 @@
-# Workflow ufficiale di esecuzione dei task
+# Workflow ufficiale di esecuzione per Codex
 
-Codex esegue solo attività esplicitamente richieste. Le istruzioni di bootstrap nella root del repository, contenute in [`AGENTS.md`](../../AGENTS.md), sono obbligatorie.
+Codex esegue solo attività esplicitamente richieste e rispetta sempre:
 
-## Regola preliminare obbligatoria — bootstrap e contesto remoto
+1. `docs/06_AI/AI_CONSTITUTION.md`;
+2. `AGENTS.md`;
+3. `docs/06_AI/GIT_WORKFLOW.md`;
+4. il TASK o OPS richiesto.
 
-Prima di interpretare o eseguire qualsiasi comando del maintainer, Codex deve:
+## Bootstrap obbligatorio
+
+Prima di interpretare qualsiasi comando:
 
 ```bash
 git fetch origin main
 ```
 
-Se il fetch fallisce, deve fermarsi e riportare l'errore.
+Poi leggere da `origin/main` mediante `git show`:
 
-Dopo il fetch deve leggere da `origin/main`, mediante `git show`:
+- `AGENTS.md`;
+- `docs/06_AI/AI_CONSTITUTION.md`;
+- `docs/06_AI/AI_STATE.md`;
+- `docs/06_AI/CODEX_WORKFLOW.md`;
+- `docs/06_AI/GIT_WORKFLOW.md`;
+- l'indice e il file dell'attività richiesta;
+- decisioni, review e documenti AI indicati dall'attività.
 
-```bash
-git show origin/main:AGENTS.md
-git show origin/main:docs/06_AI/AI_STATE.md
-git show origin/main:docs/06_AI/CODEX_WORKFLOW.md
-git show origin/main:docs/06_AI/GIT_WORKFLOW.md
-```
+Il bootstrap non modifica il working tree e non autorizza automaticamente pull, merge, rebase, reset, stash o force push.
 
-Per un task numerato deve leggere anche:
+Se il fetch fallisce, fermarsi.
 
-```bash
-git show origin/main:docs/06_AI/TASKS/TASK-XXXX.md
-```
-
-Deve inoltre leggere da `origin/main` le decisioni, review e gli altri documenti sotto `docs/06_AI/` indicati dal task.
-
-La versione ufficiale della memoria operativa AI è sempre quella presente in `origin/main`. Il fetch e la lettura tramite `git show` sono obbligatori anche quando il branch locale contiene modifiche non committate o risulta indietro rispetto al remoto.
-
-Per aggiornare il contesto non deve usare automaticamente:
-
-- `git pull`;
-- merge;
-- rebase;
-- reset;
-- stash;
-- checkout o restore massivi;
-- force push.
-
-## Comandi sintetici del maintainer
+## Comandi sintetici
 
 ### `Esegui TASK-XXXX`
 
-1. Applicare il bootstrap di `AGENTS.md`.
-2. Leggere `AI_STATE.md` da `origin/main`.
-3. Leggere `TASKS/TASK-XXXX.md` da `origin/main`.
-4. Verificare stato e prerequisiti in `TASK_INDEX.md` e `AI_STATE.md`.
-5. Eseguire integralmente il task secondo questo workflow.
+Leggere da `origin/main` `TASK_INDEX.md`, `TASKS/TASK-XXXX.md` e i prerequisiti indicati. Eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md`.
 
 ### `Esegui l'ultimo task`
 
-1. Applicare il bootstrap di `AGENTS.md`.
-2. Leggere `AI_STATE.md` da `origin/main`.
-3. Usare il valore `current_task` come candidato.
-4. Verificare che il candidato risulti `Planned` anche in `TASK_INDEX.md`.
-5. Leggere il relativo file in `TASKS/` da `origin/main`.
-6. Eseguirlo integralmente.
-7. In caso di incoerenza tra `AI_STATE.md` e `TASK_INDEX.md`, fermarsi e segnalarla.
+Leggere `AI_STATE.md` e verificare che `current_task` risulti `Planned` anche in `TASK_INDEX.md`.
 
-## 1. Leggere il contesto
+### `Esegui OPS-XXXX`
 
-Leggere documenti, istruzioni, vincoli e decisioni indicati nel task.
+Leggere da `origin/main` `OPERATIONS/OPS_INDEX.md` e `OPERATIONS/OPS-XXXX.md`. Eseguire soltanto la procedura operativa autorizzata e produrre il report richiesto.
 
-I documenti sotto `docs/06_AI/` devono essere letti dalla versione `origin/main` dopo il fetch obbligatorio.
+### `Esegui l'ultima operation`
 
-La documentazione nelle cartelle `00_Project`–`05_Project_Management` deve essere letta soltanto quando richiesta dal task o strettamente necessaria per comprenderne il perimetro.
+Individuare in `OPS_INDEX.md` la prima operation `Planned` i cui prerequisiti sono soddisfatti. In caso di ambiguità, fermarsi.
 
-## 2. Leggere il task
+## Workflow TASK
 
-Identificare obiettivo, file autorizzati, operazioni, criteri di completamento, condizioni di arresto e istruzioni Git.
+1. **Leggere il contesto:** soltanto i documenti tecnici richiesti o strettamente necessari.
+2. **Verificare il perimetro:** file autorizzati, criteri, condizioni di arresto e istruzioni Git.
+3. **Controllare Git:** eseguire `git status` e proteggere tutte le modifiche non correlate.
+4. **Implementare:** applicare esclusivamente le modifiche richieste.
+5. **Verificare e testare:** eseguire i test richiesti e controllare i criteri di completamento.
+6. **Applicare le istruzioni Git:** seguire `GIT_WORKFLOW.md`; prima del push eseguire un nuovo fetch e verificare il fast-forward.
+7. **Preparare la Engineering Review:** creare `docs/06_AI/REVIEWS/REVIEW-XXXX.md` usando il template ufficiale.
+8. **Aggiornare lo stato:** aggiornare, quando previsto, `TASK_INDEX.md`, `AI_STATE.md` e la documentazione pertinente.
+9. **Pubblicare:** il task è completato soltanto quando commit applicativo, review e stato sono pubblicati oppure il blocco è documentato.
+10. **Mostrare il report e fermarsi:** indicare review, verdetto, SHA ed esito push.
 
-## 3. Verificare il perimetro
+La Engineering Review deve contenere, quando pertinenti: metadati, verdetto, rischio, sintesi, problemi con ID stabile, review per file ed end-to-end, regressioni, checklist, piano di consolidamento, decisioni richieste, autorizzazione o blocco del task successivo e conferma finale.
 
-Confermare che l'intervento riguardi solo file e sistemi autorizzati. Non introdurre miglioramenti non richiesti e non correggere file fuori dal perimetro.
+## Workflow OPS
 
-## 4. Controllare lo stato Git
+1. **Leggere lo stato reale:** eseguire i comandi diagnostici definiti dall'operation.
+2. **Verificare autorizzazioni e prerequisiti:** operazioni Git normalmente vietate sono consentite soltanto se il file OPS le autorizza esplicitamente.
+3. **Proteggere il lavoro locale:** creare backup o stash solo quando l'operation lo richiede; non duplicare backup già esistenti.
+4. **Eseguire gli step nell'ordine indicato:** non saltare, riordinare o ampliare le operazioni.
+5. **Fermarsi sulle condizioni previste:** conflitto non deterministico, errore fuori perimetro o rischio di perdita dati.
+6. **Verificare:** controllare stato Git, marcatori di conflitto, diff, commit, push e working tree.
+7. **Produrre il report operativo:** creare il report in `docs/06_AI/OPERATIONS/REPORTS/` quando richiesto e aggiornare `OPS_INDEX.md` se autorizzato.
 
-Eseguire `git status` prima di qualsiasi modifica o ulteriore operazione Git. Le modifiche preesistenti e non correlate devono rimanere intatte e non essere incluse in staging, commit o push.
+## Regole comuni
 
-## 5. Analizzare i file coinvolti
-
-Esaminare solo i file necessari per comprendere lo stato iniziale e l'impatto delle modifiche.
-
-## 6. Eseguire solo le modifiche richieste
-
-Applicare esclusivamente le modifiche autorizzate. Se una richiesta è ambigua o richiede autorizzazioni mancanti, fermarsi e chiedere chiarimenti.
-
-## 7. Fare autoverifica
-
-Controllare i criteri di completamento e le verifiche esplicitamente richieste.
-
-## 8. Eseguire test
-
-Eseguire i test e i comandi indicati dal task; non sostituirli con attività non autorizzate.
-
-## 9. Applicare le istruzioni Git del task
-
-Seguire la sezione Git del task e [GIT_WORKFLOW.md](GIT_WORKFLOW.md). Non creare commit o push relativi all'implementazione se la sezione Git non li autorizza esplicitamente.
-
-Prima di qualsiasi push, eseguire un nuovo:
-
-```bash
-git fetch origin main
-```
-
-Verificare che la pubblicazione sia fast-forward. Il fetch non autorizza pull, merge o rebase.
-
-## 10. Preparare la Engineering Review
-
-Ogni task deve produrre una review tecnica completa in `REVIEWS/`.
-
-Il file deve chiamarsi:
-
-`REVIEW-XXXX.md`
-
-Il numero deve corrispondere al task. Usare [REVIEWS/REVIEW_TEMPLATE.md](REVIEWS/REVIEW_TEMPLATE.md) come struttura di riferimento.
-
-La review deve contenere, quando pertinenti:
-
-- metadati del task;
-- verdetto: `APPROVATO`, `APPROVATO CON RISERVE`, `NON APPROVATO` oppure `NON APPLICABILE`;
-- livello di rischio;
-- sintesi esecutiva;
-- conteggio dei problemi per priorità;
-- problemi con ID stabile;
-- milestone o task previsto per la risoluzione;
-- riferimenti a regole, standard e documentazione violati;
-- review per file;
-- review end-to-end;
-- regressioni potenziali;
-- checklist;
-- piano di consolidamento;
-- decisioni richieste al maintainer;
-- conferma finale delle operazioni eseguite.
-
-La risposta mostrata al maintainer deve essere coerente con la review archiviata.
-
-## 11. Aggiornare lo stato operativo
-
-Quando un task cambia stato, Codex deve aggiornare, se autorizzato dal task:
-
-- `TASK_INDEX.md`;
-- `AI_STATE.md`.
-
-`AI_STATE.md` deve riflettere almeno:
-
-- task corrente;
-- ultimo task completato;
-- ultima review;
-- prossimi task;
-- task bloccati;
-- decisioni attive pertinenti.
-
-Non aggiornare lo stato in modo speculativo: deve corrispondere a risultati effettivamente verificati.
-
-## 12. Archiviare e pubblicare la review
-
-La creazione della review è un'operazione amministrativa obbligatoria e separata dall'implementazione.
-
-È consentita anche quando il task indica `Push: NO`, purché:
-
-1. venga aggiunto allo staging esclusivamente il file `REVIEWS/REVIEW-XXXX.md`;
-2. non vengano incluse modifiche non autorizzate;
-3. venga usato il commit `docs: archive engineering review for TASK-XXXX`;
-4. il push sia fast-forward;
-5. in caso di cronologie divergenti o push rifiutato, il file resti locale e l'errore venga riportato integralmente.
-
-Prima del commit eseguire:
-
-- `git diff --cached --check`;
-- `git diff --cached --stat`.
-
-Dopo il commit eseguire:
-
-- `git show --stat --oneline HEAD`.
-
-## 13. Mostrare il report
-
-Mostrare al maintainer il riepilogo finale previsto dal task e indicare:
-
-- percorso della review;
-- verdetto;
-- commit SHA della review, se creato;
-- esito del push.
-
-## 14. Fermarsi
-
-Terminare il task e attendere istruzioni successive.
+- Non usare `git add .` o `git add -A`.
+- Non usare force push.
+- Non alterare file fuori perimetro.
+- Non decidere autonomamente requisiti funzionali o architetturali.
+- La risposta mostrata al maintainer deve essere coerente con la review o il report pubblicato.
