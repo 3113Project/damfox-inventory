@@ -8,9 +8,9 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 
 ```yaml
 state_version: 1
-current_milestone: Product Catalog Completed
-current_task: null
-current_task_status: null
+current_milestone: Cloud Workflow Pilot
+current_task: TASK-0023
+current_task_status: Planned
 last_completed_task: TASK-0022
 last_review: REVIEW-0022
 last_review_verdict: APPROVATO
@@ -22,6 +22,7 @@ active_decisions:
   - DECISION-0003
   - DECISION-0004
 source_of_truth: origin/main
+execution_mode: codex_cloud_pull_request
 ```
 
 ## Regole di interpretazione
@@ -32,16 +33,13 @@ source_of_truth: origin/main
 - I task elencati in `blocked_tasks` non devono essere eseguiti finché la condizione indicata non è soddisfatta.
 - Nella coda autonoma, un task successivo può passare da `Blocked` a `Planned` solo dopo una review approvata che lo autorizzi esplicitamente.
 - In caso di incoerenza tra questo file e `TASK_INDEX.md`, fermarsi e segnalarla senza scegliere autonomamente quale stato applicare.
+- Quando `execution_mode` è `codex_cloud_pull_request`, Codex deve lavorare in ambiente cloud su branch dedicata e aprire una pull request senza modificare direttamente `main`.
 
 ## Contesto corrente
 
 - Le fondamenta database, VAT e Categories hanno superato il quality gate.
-- La milestone attiva è il catalogo prodotti.
-- TASK-0018 ha completato il nucleo Products.
-- TASK-0019 ha completato Product Families.
-- TASK-0020 ha completato identificativi e ricerca catalogo.
-- TASK-0021 ha completato il quality gate della milestone 0.3.
+- Il catalogo prodotti base è completato.
 - TASK-0022 ha consolidato dipendenze e readiness.
-- BUG-0017-001 è chiuso.
-- Non esistono task Planned o Blocked nella coda corrente.
-- TASK-0019–TASK-0022 formano una coda sequenziale; ciascun task deve essere sbloccato dalla review del precedente.
+- TASK-0023 è un pilot controllato di Codex Cloud.
+- L'obiettivo funzionale del pilot è introdurre le unità di misura base e il collegamento facoltativo ai prodotti.
+- Il risultato deve arrivare tramite pull request; merge e quality gate sul server restano sotto controllo del maintainer.
