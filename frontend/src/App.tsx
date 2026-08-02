@@ -1,27 +1,28 @@
-import { useQuery } from "@tanstack/react-query"
-import { fetchBackendStatus } from "./api"
+import { Redirect, Route, Switch } from "react-router-dom"
+import { AppShell } from "./components/AppShell"
+import { Dashboard } from "./pages/Dashboard"
+import { PlaceholderPage } from "./pages/PlaceholderPage"
 import "./styles.css"
 
 export function App() {
-  const status = useQuery({
-    queryKey: ["backend-status"],
-    queryFn: fetchBackendStatus,
-    retry: 1,
-  })
-
   return (
-    <main className="page">
-      <section className="status-card" aria-labelledby="app-title">
-        <p className="eyebrow">Inventario semplice e affidabile</p>
-        <h1 id="app-title">DAMFOX Inventory</h1>
-        {status.isPending && <p role="status">Connessione al backend…</p>}
-        {status.isError && <p className="status status--error" role="alert">Backend non raggiungibile</p>}
-        {status.data && (
-          <p className="status status--success" role="status">
-            <span aria-hidden="true">●</span> Backend {status.data.status}
-          </p>
-        )}
-      </section>
-    </main>
+    <AppShell>
+      <Switch>
+        <Route exact path="/" component={Dashboard} />
+        <Route path="/prodotti">
+          <PlaceholderPage title="Prodotti" description="Il catalogo prodotti sarà disponibile nel prossimo aggiornamento." />
+        </Route>
+        <Route path="/categorie">
+          <PlaceholderPage title="Categorie" description="La gestione delle categorie non è ancora disponibile in questa interfaccia." />
+        </Route>
+        <Route path="/unita-di-misura">
+          <PlaceholderPage title="Unità di misura" description="La gestione delle unità di misura non è ancora disponibile in questa interfaccia." />
+        </Route>
+        <Route path="/impostazioni">
+          <PlaceholderPage title="Impostazioni" description="Non ci sono ancora impostazioni configurabili dal browser." />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    </AppShell>
   )
 }

@@ -5,6 +5,8 @@
 ### Changed
 
 - Aggiunto il bootstrap frontend React/TypeScript con Vite, Router, TanStack Query, Docker Compose e collegamento API configurabile con CORS esplicito.
+- Aggiunta app shell responsive e accessibile con navigazione desktop/mobile, rotte iniziali, dashboard servizi, empty state e componenti UI riutilizzabili.
+
 
 - Estesi filtri e ricerca catalogo per unità di misura, inclusi codice, nome, simbolo, stato attivo e combinazione con famiglia.
 
@@ -33,11 +35,14 @@
 - Consolidata la baseline Alembic per `users` e `vat_rates`, inclusi timestamp e vincoli deterministici.
 - Rimossa la creazione implicita dello schema dall’avvio FastAPI.
 - Unificata la configurazione `DATABASE_URL` tra applicazione e Alembic.
-- Verificati lint, test, build di produzione, healthcheck frontend e collegamento browser-backend tramite Docker Compose.
 
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+
+- Verificati rendering e navigazione dell'app shell con 2 test frontend, lint e build di produzione.
+
+- Verificati lint, test, build di produzione, healthcheck frontend e collegamento browser-backend tramite Docker Compose.
 
 - Quality gate unità di misura da build senza cache e database vuoto: 27 test verdi, catena Alembic completa, downgrade/upgrade, OpenAPI, endpoint e healthcheck verificati.
 
