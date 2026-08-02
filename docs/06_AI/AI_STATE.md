@@ -9,13 +9,13 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 ```yaml
 state_version: 1
 current_milestone: Catalogo operativo — Unità di misura
-current_task: TASK-0026
-current_task_status: Planned
-last_completed_task: TASK-0025
-last_review: REVIEW-0025
+current_task: null
+current_task_status: null
+last_completed_task: TASK-0026
+last_review: REVIEW-0026
 last_review_verdict: APPROVATO
-next_tasks:
-blocked_tasks:
+next_tasks: []
+blocked_tasks: []
 active_decisions:
   - DECISION-0001
   - DECISION-0002

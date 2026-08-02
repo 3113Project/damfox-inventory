@@ -29,6 +29,6 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0023 | Completed | Unità di misura base e collegamento facoltativo ai prodotti; esecuzione locale Docker/PostgreSQL. |
 | TASK-0024 | Completed | Unità di misura obbligatoria nei nuovi payload Product; richiede REVIEW-0023 approvata. |
 | TASK-0025 | Completed | Ricerca e filtri catalogo per unità di misura; richiede REVIEW-0024 approvata. |
-| TASK-0026 | Planned | Quality gate locale della tranche unità di misura; richiede REVIEW-0025 approvata. |
+| TASK-0026 | Completed | Quality gate locale della tranche unità di misura; richiede REVIEW-0025 approvata. |
 
 <!-- Aggiungere qui i task futuri in ordine cronologico. -->

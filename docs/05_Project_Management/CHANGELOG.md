@@ -35,6 +35,8 @@
 
 ### Verified
 
+- Quality gate unità di misura da build senza cache e database vuoto: 27 test verdi, catena Alembic completa, downgrade/upgrade, OpenAPI, endpoint e healthcheck verificati.
+
 - Suite UnitOfMeasure e regressione backend: 26 test verdi; verificati CRUD, unicità, rollback, associazione Product, cancellazione protetta, OpenAPI e ciclo downgrade/upgrade.
 
 - Build senza cache con versioni fissate, readiness con timeout, database vuoto e suite catalogo verificati.

@@ -24,6 +24,7 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 - Completed — Famiglie prodotto facoltative e filtro Products per famiglia.
 - Completed — Barcode, codice produttore e ricerca catalogo base.
 - Completed — Quality gate del catalogo base da build e database puliti.
+- Completed — Unità di misura, requisito sui nuovi prodotti, filtri, ricerca e quality gate end-to-end.
 - Planned — Documenti, immagini e ricerca avanzata, secondo BUSINESS_RULES.md.
 
 ## Milestone 0.4 — Fornitori e prezzi
