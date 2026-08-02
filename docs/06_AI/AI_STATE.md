@@ -8,11 +8,11 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 
 ```yaml
 state_version: 1
-current_milestone: Product Catalog
-current_task: TASK-0022
-current_task_status: Planned
-last_completed_task: TASK-0021
-last_review: REVIEW-0021
+current_milestone: Product Catalog Completed
+current_task: null
+current_task_status: null
+last_completed_task: TASK-0022
+last_review: REVIEW-0022
 last_review_verdict: APPROVATO
 next_tasks: []
 blocked_tasks: []
@@ -41,6 +41,7 @@ source_of_truth: origin/main
 - TASK-0019 ha completato Product Families.
 - TASK-0020 ha completato identificativi e ricerca catalogo.
 - TASK-0021 ha completato il quality gate della milestone 0.3.
-- TASK-0022 consolida dipendenze e readiness.
+- TASK-0022 ha consolidato dipendenze e readiness.
+- BUG-0017-001 è chiuso.
+- Non esistono task Planned o Blocked nella coda corrente.
 - TASK-0019–TASK-0022 formano una coda sequenziale; ciascun task deve essere sbloccato dalla review del precedente.
-- Il versionamento delle dipendenze resta una riserva non bloccante e verrà affrontato da TASK-0022.
