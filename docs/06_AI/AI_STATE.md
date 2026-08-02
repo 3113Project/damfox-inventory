@@ -9,10 +9,10 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 ```yaml
 state_version: 1
 current_milestone: Primo frontend operativo
-current_task: TASK-0030
-current_task_status: Planned
-last_completed_task: TASK-0029
-last_review: REVIEW-0029
+current_task: null
+current_task_status: null
+last_completed_task: TASK-0030
+last_review: REVIEW-0030
 last_review_verdict: APPROVATO
 next_tasks: []
 blocked_tasks: []
@@ -43,4 +43,4 @@ execution_mode: local_vscode_server
 - TASK-0027 ha creato il progetto frontend e l'integrazione runtime.
 - TASK-0028 ha prodotto il primo app shell visibile e responsivo.
 - TASK-0029 ha reso operativo il catalogo prodotti dal browser.
-- TASK-0030 esegue il quality gate end-to-end, è il task attivo e chiude la tranche.
+- TASK-0030 ha completato il quality gate end-to-end; la tranche primo frontend operativo è chiusa.

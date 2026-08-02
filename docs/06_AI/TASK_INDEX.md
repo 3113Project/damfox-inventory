@@ -33,6 +33,6 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0027 | Completed | Bootstrap frontend React/TypeScript, Docker Compose, configurazione API e CORS. |
 | TASK-0028 | Completed | App shell e navigazione responsiva; richiede REVIEW-0027 approvata. |
 | TASK-0029 | Completed | Primo verticale frontend del catalogo prodotti; richiede REVIEW-0028 approvata. |
-| TASK-0030 | Planned | Quality gate del primo frontend operativo; richiede REVIEW-0029 approvata. |
+| TASK-0030 | Completed | Quality gate del primo frontend operativo; richiede REVIEW-0029 approvata. |
 
 <!-- Aggiungere qui i task futuri in ordine cronologico. -->
