@@ -98,6 +98,16 @@ Usare `current_task` in `AI_STATE.md` e verificare che lo stesso task risulti `P
 
 Leggere `OPERATIONS/OPS_INDEX.md`, individuare l'operation `Planned` con numero più basso compatibile con i prerequisiti ed eseguirla. In caso di ambiguità, fermarsi.
 
+### `Controlla ed esegui tutti i nuovi task`
+
+1. applicare questo bootstrap;
+2. leggere `docs/06_AI/WORKFLOWS/AUTONOMOUS_TASK_QUEUE.md` da `origin/main`;
+3. individuare tutti i task `Planned` eseguibili;
+4. eseguirli in ordine progressivo senza attendere un nuovo comando dopo ogni task;
+5. dopo ogni pubblicazione, eseguire un nuovo fetch e rileggere stato, indice, review e nuovi task;
+6. proseguire finché esistono task `Planned` con prerequisiti soddisfatti;
+7. fermarsi soltanto alle condizioni definite nel workflow della coda e mostrare il riepilogo finale.
+
 ## 6. Gerarchia delle regole
 
 In caso di conflitto tra istruzioni applicare questo ordine:
