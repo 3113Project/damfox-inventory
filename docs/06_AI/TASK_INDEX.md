@@ -21,8 +21,8 @@ Elenco cronologico dei task DAMFOX Inventory. Ogni nuovo task deve ricevere un i
 | TASK-0015 | Completed | Consolidamento del modulo VAT; review archiviata in `REVIEWS/REVIEW-0015.md`. |
 | TASK-0016 | Completed | Completamento end-to-end di Categories; review archiviata in `REVIEWS/REVIEW-0016.md`. |
 | TASK-0017 | Completed | Quality gate finale delle fondamenta; review archiviata in `REVIEWS/REVIEW-0017.md`. |
-| TASK-0018 | Planned | Nucleo Products con SKU immutabile, Category, VAT, CRUD, migrazione e test. |
-| TASK-0019 | Blocked | Famiglie prodotto; richiede REVIEW-0018 approvata. |
+| TASK-0018 | Completed | Nucleo Products con SKU immutabile, Category, VAT, CRUD, migrazione e test. |
+| TASK-0019 | Planned | Famiglie prodotto; richiede REVIEW-0018 approvata. |
 | TASK-0020 | Blocked | Barcode, codice produttore e ricerca catalogo; richiede REVIEW-0019 approvata. |
 | TASK-0021 | Blocked | Quality gate del catalogo base; richiede REVIEW-0020 approvata. |
 | TASK-0022 | Blocked | Build backend riproducibile e readiness; richiede REVIEW-0021 approvata. |
