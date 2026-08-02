@@ -18,11 +18,12 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 
 - Completed — Modello gerarchico, service, API, migrazione, validazioni, rollback e test automatici.
 
-## Milestone 0.3 — Catalogo prodotti
+## Milestone 0.3 — Catalogo prodotti base
 
 - Completed — Nucleo Products con SKU immutabile, Category facoltativa e VAT obbligatoria.
 - Completed — Famiglie prodotto facoltative e filtro Products per famiglia.
 - Completed — Barcode, codice produttore e ricerca catalogo base.
+- Completed — Quality gate del catalogo base da build e database puliti.
 - Planned — Documenti, immagini e ricerca avanzata, secondo BUSINESS_RULES.md.
 
 ## Milestone 0.4 — Fornitori e prezzi

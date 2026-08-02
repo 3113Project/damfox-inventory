@@ -26,6 +26,8 @@
 
 ### Verified
 
+- Quality gate catalogo base: build senza cache, database vuoto, 22 test, OpenAPI, metadata e ciclo completo delle revisioni catalogo verificati.
+
 - Suite catalogo identificativi: 22 test verdi; ricerca multi-campo, unicità barcode e zeri iniziali verificati.
 
 - Suite con Product Families: 19 test verdi e migrazione reversibile verificata.
