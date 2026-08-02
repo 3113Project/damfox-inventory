@@ -1,76 +1,88 @@
 # Workflow ufficiale di esecuzione per Codex
 
-Codex esegue solo attività esplicitamente richieste e rispetta sempre:
+Codex rispetta sempre:
 
 1. `docs/06_AI/AI_CONSTITUTION.md`;
 2. `AGENTS.md`;
-3. `docs/06_AI/GIT_WORKFLOW.md`;
-4. il TASK o OPS richiesto.
+3. `docs/06_AI/WORKFLOWS/ENVIRONMENT_BOOTSTRAP.md`;
+4. `docs/06_AI/GIT_WORKFLOW.md`;
+5. il TASK o OPS richiesto.
 
 ## Bootstrap obbligatorio
 
-Prima di interpretare qualsiasi comando:
+### Ambiente con remote `origin` accessibile
+
+Eseguire:
 
 ```bash
 git fetch origin main
 ```
 
-Poi leggere da `origin/main` mediante `git show`:
+Leggere da `origin/main` tramite `git show` i documenti operativi e l'attività richiesta. Se il fetch fallisce, fermarsi.
 
-- `AGENTS.md`;
-- `docs/06_AI/AI_CONSTITUTION.md`;
-- `docs/06_AI/AI_STATE.md`;
-- `docs/06_AI/CODEX_WORKFLOW.md`;
-- `docs/06_AI/GIT_WORKFLOW.md`;
-- l'indice e il file dell'attività richiesta;
-- decisioni, review e documenti AI indicati dall'attività.
+### Ambiente senza remote `origin`
 
-Il bootstrap non modifica il working tree e non autorizza automaticamente pull, merge, rebase, reset, stash o force push.
+Leggere direttamente dal workspace corrente gli stessi documenti. Questa modalità è prevista per Codex Web/Cloud e non richiede la configurazione manuale di un remote.
 
-Se il fetch fallisce, fermarsi.
+In entrambe le modalità verificare la coerenza tra `AI_STATE.md`, indice e attività richiesta.
 
 ## Comandi sintetici
 
 ### `Esegui TASK-XXXX`
 
-Leggere da `origin/main` `TASK_INDEX.md`, `TASKS/TASK-XXXX.md` e i prerequisiti indicati. Eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md`.
+Leggere indice, task, prerequisiti e knowledge dalla fonte disponibile; eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md`.
 
 ### `Esegui l'ultimo task`
 
-Leggere `AI_STATE.md` e verificare che `current_task` risulti `Planned` anche in `TASK_INDEX.md`.
+Verificare che `current_task` sia `Planned` anche in `TASK_INDEX.md`.
 
 ### `Esegui OPS-XXXX`
 
-Leggere da `origin/main` `OPERATIONS/OPS_INDEX.md` e `OPERATIONS/OPS-XXXX.md`. Eseguire soltanto la procedura operativa autorizzata e produrre il report richiesto.
+Leggere indice Operations e operation richiesta; eseguire soltanto la procedura autorizzata.
 
 ### `Esegui l'ultima operation`
 
-Individuare in `OPS_INDEX.md` la prima operation `Planned` i cui prerequisiti sono soddisfatti. In caso di ambiguità, fermarsi.
+Individuare la prima operation `Planned` con prerequisiti soddisfatti.
+
+### `Controlla ed esegui tutti i nuovi task`
+
+Eseguire la tranche autonoma prevista, in ordine, fino a esaurimento o condizione di arresto. In cloud ogni task deve rispettare la strategia branch/PR prevista dalla coda o dal task.
 
 ## Workflow TASK
 
-1. **Leggere il contesto:** soltanto i documenti tecnici richiesti o strettamente necessari.
-2. **Verificare il perimetro:** file autorizzati, criteri, condizioni di arresto e istruzioni Git.
-3. **Controllare Git:** eseguire `git status` e proteggere tutte le modifiche non correlate.
-4. **Implementare:** applicare esclusivamente le modifiche richieste.
-5. **Verificare e testare:** eseguire i test richiesti e controllare i criteri di completamento.
-6. **Applicare le istruzioni Git:** seguire `GIT_WORKFLOW.md`; prima del push eseguire un nuovo fetch e verificare il fast-forward.
-7. **Preparare la Engineering Review:** creare `docs/06_AI/REVIEWS/REVIEW-XXXX.md` usando il template ufficiale.
-8. **Aggiornare lo stato:** aggiornare, quando previsto, `TASK_INDEX.md`, `AI_STATE.md` e la documentazione pertinente.
-9. **Pubblicare:** il task è completato soltanto quando commit applicativo, review e stato sono pubblicati oppure il blocco è documentato.
-10. **Mostrare il report e fermarsi:** indicare review, verdetto, SHA ed esito push.
+1. **Rilevare ambiente e fonte:** applicare `ENVIRONMENT_BOOTSTRAP.md`.
+2. **Leggere il contesto:** solo documenti richiesti o necessari.
+3. **Verificare il perimetro:** file autorizzati, criteri, arresti e pubblicazione.
+4. **Controllare il workspace:** proteggere modifiche non correlate.
+5. **Implementare:** applicare solo le modifiche richieste.
+6. **Verificare e testare:** eseguire i test supportati; documentare quelli impossibili nell'ambiente.
+7. **Preparare la Engineering Review.**
+8. **Aggiornare stato e documentazione** quando previsto.
+9. **Pubblicare:**
+   - locale: commit e push fast-forward autorizzato;
+   - cloud: branch dedicata e pull request verso `main` quando richiesto;
+   - ambiente limitato: patch/commit e blocco documentato.
+10. **Mostrare il report e fermarsi**, oppure proseguire con la coda autonoma.
 
-La Engineering Review deve contenere, quando pertinenti: metadati, verdetto, rischio, sintesi, problemi con ID stabile, review per file ed end-to-end, regressioni, checklist, piano di consolidamento, decisioni richieste, autorizzazione o blocco del task successivo e conferma finale.
+La review deve contenere metadati, verdetto, rischio, sintesi, problemi, review per file ed end-to-end, regressioni, checklist, decisioni richieste e conferma finale.
 
 ## Workflow OPS
 
-1. **Leggere lo stato reale:** eseguire i comandi diagnostici definiti dall'operation.
-2. **Verificare autorizzazioni e prerequisiti:** operazioni Git normalmente vietate sono consentite soltanto se il file OPS le autorizza esplicitamente.
-3. **Proteggere il lavoro locale:** creare backup o stash solo quando l'operation lo richiede; non duplicare backup già esistenti.
-4. **Eseguire gli step nell'ordine indicato:** non saltare, riordinare o ampliare le operazioni.
-5. **Fermarsi sulle condizioni previste:** conflitto non deterministico, errore fuori perimetro o rischio di perdita dati.
-6. **Verificare:** controllare stato Git, marcatori di conflitto, diff, commit, push e working tree.
-7. **Produrre il report operativo:** creare il report in `docs/06_AI/OPERATIONS/REPORTS/` quando richiesto e aggiornare `OPS_INDEX.md` se autorizzato.
+1. leggere lo stato reale;
+2. verificare autorizzazioni e prerequisiti;
+3. proteggere il lavoro locale quando applicabile;
+4. eseguire gli step nell'ordine indicato;
+5. fermarsi sulle condizioni previste;
+6. verificare stato Git, diff, commit e pubblicazione;
+7. produrre il report operativo richiesto.
+
+## Regole cloud
+
+- Non assumere che la shell disponga di `origin`.
+- Non tentare di aggiungere credenziali o remote del server DAMFOX.
+- Usare la branch/snapshot predisposta da Codex Cloud.
+- Aprire pull request quando il task lo richiede.
+- Non dichiarare superati test Docker o PostgreSQL non eseguiti; indicare chiaramente limiti e verifiche residue locali.
 
 ## Regole comuni
 
@@ -78,4 +90,4 @@ La Engineering Review deve contenere, quando pertinenti: metadati, verdetto, ris
 - Non usare force push.
 - Non alterare file fuori perimetro.
 - Non decidere autonomamente requisiti funzionali o architetturali.
-- La risposta mostrata al maintainer deve essere coerente con la review o il report pubblicato.
+- La risposta al maintainer deve coincidere con la review o il report pubblicato.
