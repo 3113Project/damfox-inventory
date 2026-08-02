@@ -33,9 +33,13 @@ Il modello base fornisce `id`, `created_at` e `updated_at` ai modelli che lo ere
 
 `ProductFamily` organizza facoltativamente i prodotti senza influenzare IVA, prezzi, fornitori o magazzino. Il nome è univoco in forma normalizzata e una famiglia usata non può essere eliminata.
 
+### UnitOfMeasure
+
+`UnitOfMeasure` definisce codice univoco case-insensitive e normalizzato, nome, simbolo facoltativo, stato attivo e timestamp. Il CRUD usa PATCH; la cancellazione è vietata quando l'unità è referenziata da prodotti.
+
 ### Product
 
-Il modello `Product` è implementato con SKU immutabile, nome, descrizione facoltativa, Category facoltativa, VAT obbligatoria, stato attivo e timestamp. Lo SKU è univoco senza distinzione tra maiuscole e minuscole tramite indice PostgreSQL normalizzato. La cancellazione fisica è consentita finché non esistono riferimenti operativi e sarà rivalutata con prezzi, fornitori e magazzino.
+Il modello `Product` è implementato con SKU immutabile, nome, descrizione facoltativa, Category facoltativa, VAT obbligatoria, UnitOfMeasure facoltativa, stato attivo e timestamp. Lo SKU è univoco senza distinzione tra maiuscole e minuscole tramite indice PostgreSQL normalizzato. La cancellazione fisica è consentita finché non esistono riferimenti operativi e sarà rivalutata con prezzi, fornitori e magazzino.
 
 ### Category
 
@@ -43,7 +47,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 
 ## Entità pianificate
 
-- Image, Document, UnitOfMeasure e Packaging.
+- Image, Document e Packaging.
 - Supplier, ProductSupplier e PurchasePriceHistory.
 - InventoryMovement e i dati necessari a giacenza, scorta minima e ubicazione.
 
@@ -55,6 +59,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 | Product → VATRate | Implementata; richiesta da BR-022. |
 | Product → ProductBarcode | Implementata uno-a-molti. |
 | Product → ProductFamily | Implementata e facoltativa. |
+| Product → UnitOfMeasure | Implementata e facoltativa; FK `RESTRICT`. |
 | Product → Category | Implementata e facoltativa. |
 | Product ↔ Supplier tramite ProductSupplier | Pianificata; il costo appartiene a questa relazione. |
 | ProductSupplier → PurchasePriceHistory | Pianificata; lo storico non deve essere eliminato. |
@@ -70,7 +75,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 
 ## Migrazioni
 
-Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates`, `categories`, `products`, `product_families` e `product_barcodes`; tutte le tabelle includono ID, timestamp,
+Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates`, `categories`, `products`, `product_families`, `product_barcodes` e `unit_measures`; tutte le tabelle includono ID, timestamp,
 nullability e vincoli coerenti con i modelli ORM registrati in `app.models`.
 
 `DATABASE_URL` proviene dalla configurazione applicativa anche durante le
@@ -78,7 +83,7 @@ migrazioni. La baseline è stata verificata su database vuoto, una seconda
 esecuzione di `alembic upgrade head` è risultata idempotente e
 `alembic check` non ha rilevato operazioni mancanti.
 
-Una migrazione correttiva applica il vincolo `ck_vat_rates_rate_range`; la revisione `a4c5d6e7f8b9` crea Categories, la chiave esterna gerarchica, il vincolo sul nome e gli indici univoci normalizzati per radici e fratelli.
+La revisione `e8a9b0c1d2e3` crea le unità di misura e aggiunge a Product la FK facoltativa e reversibile. Una migrazione correttiva applica il vincolo `ck_vat_rates_rate_range`; la revisione `a4c5d6e7f8b9` crea Categories, la chiave esterna gerarchica, il vincolo sul nome e gli indici univoci normalizzati per radici e fratelli.
 
 ## Decisioni aperte
 

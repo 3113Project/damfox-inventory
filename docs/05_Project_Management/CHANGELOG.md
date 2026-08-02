@@ -4,6 +4,9 @@
 
 ### Changed
 
+- Aggiunta l'anagrafica UnitOfMeasure con CRUD PATCH, codice univoco normalizzato e cancellazione protetta.
+- Aggiunta a Product l'associazione facoltativa `unit_of_measure_id` con FK `RESTRICT` e migrazione reversibile.
+
 - Fissate le versioni delle dipendenze Python dirette e aggiunti healthcheck PostgreSQL/backend con script readiness riutilizzabile.
 
 - Aggiunti barcode multipli, codice produttore e ricerca catalogo case-insensitive senza dipendenze esterne.
@@ -27,6 +30,8 @@
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+
+- Suite UnitOfMeasure e regressione backend: 26 test verdi; verificati CRUD, unicità, rollback, associazione Product, cancellazione protetta, OpenAPI e ciclo downgrade/upgrade.
 
 - Build senza cache con versioni fissate, readiness con timeout, database vuoto e suite catalogo verificati.
 
