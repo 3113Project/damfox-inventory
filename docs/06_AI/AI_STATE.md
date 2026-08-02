@@ -9,17 +9,14 @@ Questo file non sostituisce `TASK_INDEX.md`, le decisioni o le Engineering Revie
 ```yaml
 state_version: 1
 current_milestone: Product Catalog
-current_task: TASK-0020
+current_task: TASK-0021
 current_task_status: Planned
-last_completed_task: TASK-0019
-last_review: REVIEW-0019
+last_completed_task: TASK-0020
+last_review: REVIEW-0020
 last_review_verdict: APPROVATO
 next_tasks:
-  - TASK-0021
   - TASK-0022
 blocked_tasks:
-  - task: TASK-0021
-    reason: Richiede REVIEW-0020 approvata.
   - task: TASK-0022
     reason: Richiede REVIEW-0021 approvata.
 active_decisions:
@@ -45,6 +42,7 @@ source_of_truth: origin/main
 - La milestone attiva è il catalogo prodotti.
 - TASK-0018 ha completato il nucleo Products.
 - TASK-0019 ha completato Product Families.
-- TASK-0020 realizza identificativi e ricerca catalogo.
+- TASK-0020 ha completato identificativi e ricerca catalogo.
+- TASK-0021 esegue il quality gate della milestone 0.3.
 - TASK-0019–TASK-0022 formano una coda sequenziale; ciascun task deve essere sbloccato dalla review del precedente.
 - Il versionamento delle dipendenze resta una riserva non bloccante e verrà affrontato da TASK-0022.
