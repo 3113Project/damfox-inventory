@@ -25,6 +25,10 @@ Il modello `User` è presente con username univoco, password, flag `is_admin`, `
 
 Il modello base fornisce `id`, `created_at` e `updated_at` ai modelli che lo ereditano.
 
+### ProductBarcode
+
+`ProductBarcode` conserva identificativi stringa, inclusi zeri iniziali, con unicità globale normalizzata e relazione molti-a-uno verso Product.
+
 ### ProductFamily
 
 `ProductFamily` organizza facoltativamente i prodotti senza influenzare IVA, prezzi, fornitori o magazzino. Il nome è univoco in forma normalizzata e una famiglia usata non può essere eliminata.
@@ -39,7 +43,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 
 ## Entità pianificate
 
-- Barcode, Image, Document, UnitOfMeasure e Packaging.
+- Image, Document, UnitOfMeasure e Packaging.
 - Supplier, ProductSupplier e PurchasePriceHistory.
 - InventoryMovement e i dati necessari a giacenza, scorta minima e ubicazione.
 
@@ -49,6 +53,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 | --- | --- |
 | Category gerarchica (`parent_id`) | Implementata. |
 | Product → VATRate | Implementata; richiesta da BR-022. |
+| Product → ProductBarcode | Implementata uno-a-molti. |
 | Product → ProductFamily | Implementata e facoltativa. |
 | Product → Category | Implementata e facoltativa. |
 | Product ↔ Supplier tramite ProductSupplier | Pianificata; il costo appartiene a questa relazione. |
@@ -65,7 +70,7 @@ Il modello `Category` è implementato con `name`, `description`, `parent_id`, `a
 
 ## Migrazioni
 
-Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates`, `categories`, `products` e `product_families`; tutte le tabelle includono ID, timestamp,
+Alembic è l’unica fonte di verità dello schema. La catena lineare crea `users`, `vat_rates`, `categories`, `products`, `product_families` e `product_barcodes`; tutte le tabelle includono ID, timestamp,
 nullability e vincoli coerenti con i modelli ORM registrati in `app.models`.
 
 `DATABASE_URL` proviene dalla configurazione applicativa anche durante le

@@ -20,6 +20,7 @@ class ProductCreate(BaseModel):
     sku: SKU
     name: ProductName
     description: str | None = Field(default=None, max_length=2000)
+    manufacturer_code: str | None = Field(default=None, max_length=100)
     category_id: int | None = Field(default=None, gt=0)
     vat_rate_id: int = Field(gt=0)
     family_id: int | None = Field(default=None, gt=0)
@@ -31,6 +32,7 @@ class ProductCreate(BaseModel):
 class ProductUpdate(BaseModel):
     name: ProductName | None = None
     description: str | None = Field(default=None, max_length=2000)
+    manufacturer_code: str | None = Field(default=None, max_length=100)
     category_id: int | None = Field(default=None, gt=0)
     vat_rate_id: int | None = Field(default=None, gt=0)
     family_id: int | None = Field(default=None, gt=0)
@@ -52,6 +54,7 @@ class ProductResponse(BaseModel):
     sku: str
     name: str
     description: str | None
+    manufacturer_code: str | None
     category_id: int | None
     vat_rate_id: int
     family_id: int | None

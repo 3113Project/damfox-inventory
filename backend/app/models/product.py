@@ -24,6 +24,7 @@ class Product(BaseModel):
     sku: Mapped[str] = mapped_column(String(64), nullable=False)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    manufacturer_code: Mapped[str | None] = mapped_column(String(100), nullable=True)
     category_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id", ondelete="RESTRICT"), nullable=True)
     vat_rate_id: Mapped[int] = mapped_column(ForeignKey("vat_rates.id", ondelete="RESTRICT"), nullable=False)
     family_id: Mapped[int | None] = mapped_column(ForeignKey("product_families.id", ondelete="RESTRICT"), nullable=True)
@@ -32,3 +33,4 @@ class Product(BaseModel):
     category: Mapped[object | None] = relationship("Category")
     vat_rate: Mapped[object] = relationship("VATRate")
     family: Mapped[object | None] = relationship("ProductFamily", back_populates="products")
+    barcodes: Mapped[list[object]] = relationship("ProductBarcode", back_populates="product", cascade="all, delete-orphan", passive_deletes=True)

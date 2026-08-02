@@ -8,6 +8,7 @@ from app.core.exceptions import ConflictError, ResourceNotFoundError
 from app.models.category import Category
 from app.models.product import Product
 from app.models.product_family import ProductFamily
+from app.models.product_barcode import ProductBarcode
 from app.models.vat_rate import VATRate
 from app.schemas.product import ProductCreate, ProductUpdate
 
@@ -38,12 +39,18 @@ def _unique(db: Session, sku: str) -> None:
         raise ConflictError("Product SKU already exists")
 
 
-def list_products(db: Session, family_id: int | None = None) -> list[Product]:
+def list_products(db: Session, family_id: int | None = None, q: str | None = None) -> list[Product]:
     """List products, optionally filtering by family."""
     query = select(Product)
     if family_id is not None:
         query = query.where(Product.family_id == family_id)
-    return list(db.scalars(query.order_by(func.lower(Product.sku), Product.id)).all())
+    term = q.strip() if q is not None else ""
+    if term:
+        pattern = f"%{term}%"
+        query = query.outerjoin(ProductFamily, Product.family_id == ProductFamily.id).outerjoin(ProductBarcode, Product.id == ProductBarcode.product_id).where(
+            Product.sku.ilike(pattern) | Product.name.ilike(pattern) | Product.description.ilike(pattern) | Product.manufacturer_code.ilike(pattern) | ProductFamily.name.ilike(pattern) | ProductBarcode.value.ilike(pattern)
+        ).distinct()
+    return list(db.scalars(query.order_by(Product.sku, Product.id)).all())
 
 
 def get_product(db: Session, product_id: int) -> Product:

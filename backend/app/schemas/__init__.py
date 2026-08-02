@@ -1,6 +1,7 @@
 """Application schema exports."""
 
 from .category import CategoryBase, CategoryCreate, CategoryResponse, CategoryUpdate
+from .product_barcode import ProductBarcodeCreate, ProductBarcodeResponse
 from .product_family import ProductFamilyCreate, ProductFamilyResponse, ProductFamilyUpdate
 from .product import ProductCreate, ProductResponse, ProductUpdate
 from .vat_rate import VATRateBase, VATRateCreate, VATRateResponse, VATRateUpdate
@@ -10,6 +11,8 @@ __all__ = [
     "CategoryCreate",
     "CategoryResponse",
     "CategoryUpdate",
+    "ProductBarcodeCreate",
+    "ProductBarcodeResponse",
     "ProductFamilyCreate",
     "ProductFamilyResponse",
     "ProductFamilyUpdate",

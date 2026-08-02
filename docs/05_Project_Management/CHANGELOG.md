@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Aggiunti barcode multipli, codice produttore e ricerca catalogo case-insensitive senza dipendenze esterne.
+
 - Aggiunte Product Families, associazione facoltativa Products, cancellazione protetta e filtro per famiglia.
 
 - Implementato il nucleo Products con SKU immutabile, Category facoltativa, VAT obbligatoria, CRUD PATCH e migrazione reversibile.
@@ -23,6 +25,8 @@
 - Ridotta a una sola implementazione canonica la dipendenza `get_db`.
 
 ### Verified
+
+- Suite catalogo identificativi: 22 test verdi; ricerca multi-campo, unicità barcode e zeri iniziali verificati.
 
 - Suite con Product Families: 19 test verdi e migrazione reversibile verificata.
 

@@ -22,7 +22,8 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 
 - Completed — Nucleo Products con SKU immutabile, Category facoltativa e VAT obbligatoria.
 - Completed — Famiglie prodotto facoltative e filtro Products per famiglia.
-- Planned — Famiglie, barcode, documenti, immagini e ricerca, secondo BUSINESS_RULES.md.
+- Completed — Barcode, codice produttore e ricerca catalogo base.
+- Planned — Documenti, immagini e ricerca avanzata, secondo BUSINESS_RULES.md.
 
 ## Milestone 0.4 — Fornitori e prezzi
 
