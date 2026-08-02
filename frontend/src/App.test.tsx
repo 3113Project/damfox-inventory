@@ -46,3 +46,21 @@ test("navigates to the real product catalog empty state", async () => {
   expect(screen.getByRole("heading", { name: "Prodotti" })).toBeInTheDocument()
   expect(await screen.findByRole("heading", { name: "Il catalogo è vuoto" })).toBeInTheDocument()
 })
+
+test("shows catalog loading state while API requests are pending", () => {
+  vi.spyOn(globalThis, "fetch").mockImplementation(() => new Promise(() => undefined))
+  renderApp("/prodotti")
+  expect(screen.getByRole("status")).toHaveTextContent("Caricamento catalogo")
+})
+
+test("shows an understandable catalog network error", async () => {
+  vi.spyOn(globalThis, "fetch").mockRejectedValue(new TypeError("Failed to fetch"))
+  renderApp("/prodotti")
+  expect(await screen.findByRole("alert")).toHaveTextContent(
+    "Non è stato possibile caricare il catalogo",
+  )
+  expect(screen.getByRole("link", { name: "Vai al contenuto" })).toHaveAttribute(
+    "href",
+    "#main-content",
+  )
+})

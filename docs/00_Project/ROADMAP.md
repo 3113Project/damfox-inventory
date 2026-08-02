@@ -44,7 +44,9 @@ La roadmap è incrementale, non assegna date e non sostituisce le regole di busi
 
 ## Milestone 0.7 — Frontend operativo
 
-- Planned — Frontend responsivo, ricerca, tabelle e flussi conformi alle linee guida UI.
+- Completed — Bootstrap React/TypeScript riproducibile e integrato in Docker Compose.
+- Completed — App shell responsiva, navigazione accessibile e componenti UI base.
+- Completed — Catalogo prodotti con lista, ricerca, filtri, dettaglio, creazione e modifica sulle API reali.
 
 ## Milestone 1.0 — Prima release stabile
 

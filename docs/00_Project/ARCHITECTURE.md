@@ -66,7 +66,7 @@ Il frontend in `frontend/` offre una app shell responsiva e un verticale operati
 
 ## Readiness e dipendenze
 
-Le dipendenze Python runtime dirette sono fissate a versioni esatte. PostgreSQL espone un healthcheck `pg_isready`; l’immagine backend verifica lo stato applicativo tramite `scripts/wait_for_backend.py`, riutilizzabile anche prima dei test.
+Le dipendenze runtime backend e frontend sono fissate tramite `requirements.txt` e `package-lock.json`. PostgreSQL espone `pg_isready`; backend e frontend hanno healthcheck applicativi. Il gate finale ha verificato build senza cache, database vuoto, migrazioni complete e idempotenti, 27 test backend, 6 test frontend, build TypeScript e stack interamente healthy.
 
 ## Deployment attuale
 
