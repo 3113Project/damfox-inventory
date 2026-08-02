@@ -22,18 +22,54 @@ Esegui tutti i task pianificati.
 Avvia la coda dei task.
 ```
 
+## Autorizzazione al riallineamento iniziale sicuro
+
+Il comando di avvio della coda costituisce autorizzazione esplicita a riallineare `main` con `origin/main` mediante **solo fast-forward**, prima di eseguire il primo task.
+
+Dopo `git fetch origin main`, Codex deve verificare:
+
+- branch corrente esatto: `main`;
+- working tree e indice puliti;
+- nessun rebase o merge in corso;
+- nessun commit locale assente da `origin/main`;
+- relazione tra `HEAD` e `origin/main` compatibile con un avanzamento fast-forward.
+
+Se tutte le condizioni sono soddisfatte e il branch locale è indietro, è autorizzato esclusivamente:
+
+```bash
+git merge --ff-only origin/main
+```
+
+Dopo il comando deve verificare che `HEAD` coincida con `origin/main` e rileggere da `origin/main` tutta la documentazione operativa della coda.
+
+Questa autorizzazione non consente:
+
+- merge commit;
+- `git pull` generico;
+- rebase;
+- reset;
+- stash;
+- force push;
+- risoluzione automatica di divergenze o conflitti.
+
+Se il working tree non è pulito, il branch non è `main`, esistono commit locali, compare divergenza oppure `git merge --ff-only` fallisce, Codex deve fermarsi senza modificare nulla e riportare lo stato Git completo.
+
+La stessa autorizzazione vale dopo un push della coda quando `origin/main` contiene soltanto nuovi commit fast-forward pubblicati da ChatGPT o da un altro agente e il workspace locale è pulito e privo di commit esclusivamente locali.
+
 ## Algoritmo della coda
 
 1. Eseguire il bootstrap obbligatorio definito in `AGENTS.md`.
-2. Leggere da `origin/main` `AI_STATE.md`, `TASK_INDEX.md` e tutti i task con stato `Planned`.
-3. Ordinare i task eseguibili per numero progressivo crescente.
-4. Selezionare il primo task i cui prerequisiti risultano soddisfatti.
-5. Eseguire integralmente il task secondo `CODEX_WORKFLOW.md`.
-6. Eseguire test, creare commit, Engineering Review, aggiornare stato e pubblicare quanto previsto.
-7. Dopo ogni push riuscito, eseguire nuovamente `git fetch origin main`.
-8. Rileggere da `origin/main` `AI_STATE.md`, `TASK_INDEX.md`, le review appena pubblicate e gli eventuali nuovi task o decisioni.
-9. Se esiste un altro task `Planned` eseguibile, proseguire automaticamente senza attendere il maintainer.
-10. Terminare soltanto quando si verifica una condizione di arresto.
+2. Applicare, se necessario, il riallineamento iniziale sicuro autorizzato in questo documento.
+3. Leggere da `origin/main` `AI_STATE.md`, `TASK_INDEX.md` e tutti i task con stato `Planned`.
+4. Ordinare i task eseguibili per numero progressivo crescente.
+5. Selezionare il primo task i cui prerequisiti risultano soddisfatti.
+6. Eseguire integralmente il task secondo `CODEX_WORKFLOW.md`.
+7. Eseguire test, creare commit, Engineering Review, aggiornare stato e pubblicare quanto previsto.
+8. Dopo ogni push riuscito, eseguire nuovamente `git fetch origin main`.
+9. Se il workspace locale è rimasto pulito e soltanto indietro senza divergenza, applicare nuovamente `git merge --ff-only origin/main`.
+10. Rileggere da `origin/main` `AI_STATE.md`, `TASK_INDEX.md`, le review appena pubblicate e gli eventuali nuovi task o decisioni.
+11. Se esiste un altro task `Planned` eseguibile, proseguire automaticamente senza attendere il maintainer.
+12. Terminare soltanto quando si verifica una condizione di arresto.
 
 ## Condizioni di arresto obbligatorie
 
@@ -45,7 +81,7 @@ Codex deve fermare la coda e riportare lo stato completo quando:
 - una Engineering Review produce verdetto `NON APPROVATO` o non autorizza il task successivo;
 - un test richiesto fallisce e il task non autorizza la correzione necessaria;
 - il push non è fast-forward;
-- è necessaria una operation Git o infrastrutturale non già autorizzata;
+- è necessaria una operation Git o infrastrutturale diversa dal fast-forward sicuro già autorizzato;
 - esiste un conflitto non deterministico;
 - il fetch fallisce;
 - sussiste un rischio di perdita o sovrascrittura di dati o lavoro locale;
