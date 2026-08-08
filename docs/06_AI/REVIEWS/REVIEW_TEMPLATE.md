@@ -1,6 +1,41 @@
 # REVIEW-XXXX
 
-## Metadati
+## Modalità
+
+Usare una delle due modalità:
+
+- `COMPACT` per task intermedi di una tranche autonoma;
+- `FULL` per quality gate, task standalone ad alto rischio, regressioni significative o verdetti con riserve/non approvati.
+
+## Template COMPACT
+
+### Metadati
+
+- **Task:** TASK-XXXX
+- **Titolo:**
+- **Commit analizzato:**
+- **Verdetto:** APPROVATO | APPROVATO CON RISERVE | NON APPROVATO | NON APPLICABILE
+- **Rischio:** Basso | Medio | Alto | Critico
+
+### Sintesi
+
+### Verifiche mirate eseguite
+
+### Problemi o rischi residui
+
+### Perimetro
+
+Confermare che non siano state introdotte modifiche fuori task.
+
+### Task successivo
+
+- **Autorizzato:** SÌ | NO
+- **Task:** TASK-XXXX | nessuno
+- **Motivo:**
+
+## Template FULL
+
+### Metadati
 
 - **Task:** TASK-XXXX
 - **Titolo:**
@@ -9,9 +44,9 @@
 - **Verdetto:** APPROVATO | APPROVATO CON RISERVE | NON APPROVATO | NON APPLICABILE
 - **Rischio:** Basso | Medio | Alto | Critico
 
-## Sintesi esecutiva
+### Sintesi esecutiva
 
-## Indicatori
+### Indicatori
 
 - Blocking issues:
 - Alta priorità:
@@ -19,40 +54,28 @@
 - Bassa priorità:
 - Pronto per sviluppo o merge: SÌ | NO
 
-## Problemi identificati
+### Problemi identificati
 
 Ogni problema deve avere un ID stabile.
 
-### BUG-XXXX
+### Review per file
 
-- **Priorità:**
-- **Milestone o task di risoluzione:**
-- **File interessati:**
-- **Descrizione:**
-- **Regola o documento violato:**
-- **Intervento consigliato:**
+### Review end-to-end
 
-## Review per file
+### Regressioni potenziali
 
-## Review end-to-end
+### Checklist pertinente
 
-## Regressioni potenziali
+Non includere voci non pertinenti solo per riempire il template.
 
-## Checklist
+### Piano di consolidamento
 
-- [ ] Import e avvio
-- [ ] Modelli
-- [ ] Schemi
-- [ ] Service
-- [ ] Router
-- [ ] Migrazioni
-- [ ] Error handling e rollback
-- [ ] Test
-- [ ] OpenAPI
-- [ ] Documentazione
+### Decisioni richieste al maintainer
 
-## Piano di consolidamento
+### Task successivo o chiusura tranche
 
-## Decisioni richieste al maintainer
+### Conferma finale
 
-## Conferma finale
+## Regola
+
+La review deve registrare ciò che è stato realmente verificato. Non duplicare integralmente requisiti già presenti nel task e non espandere sezioni prive di informazione utile.
