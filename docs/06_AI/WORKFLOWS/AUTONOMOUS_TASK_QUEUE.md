@@ -4,6 +4,8 @@
 
 Definire la modalità con cui Codex esegue in sequenza tutti i task applicativi disponibili senza richiedere un nuovo comando del maintainer dopo ogni task.
 
+Per le tranche con più task applicare anche `WORKFLOWS/LEAN_AUTONOMOUS_EXECUTION.md`: un solo bootstrap completo iniziale, contesto incrementale, verifiche mirate intermedie e quality gate completo finale.
+
 ## Comando di avvio
 
 Il maintainer avvia la coda con:
@@ -40,17 +42,9 @@ Se tutte le condizioni sono soddisfatte e il branch locale è indietro, è autor
 git merge --ff-only origin/main
 ```
 
-Dopo il comando deve verificare che `HEAD` coincida con `origin/main` e rileggere da `origin/main` tutta la documentazione operativa della coda.
+Dopo il comando deve verificare che `HEAD` coincida con `origin/main`.
 
-Questa autorizzazione non consente:
-
-- merge commit;
-- `git pull` generico;
-- rebase;
-- reset;
-- stash;
-- force push;
-- risoluzione automatica di divergenze o conflitti.
+Questa autorizzazione non consente merge commit, `git pull` generico, rebase, reset, stash, force push o risoluzione automatica di divergenze e conflitti.
 
 Se il working tree non è pulito, il branch non è `main`, esistono commit locali, compare divergenza oppure `git merge --ff-only` fallisce, Codex deve fermarsi senza modificare nulla e riportare lo stato Git completo.
 
@@ -60,14 +54,14 @@ La stessa autorizzazione vale dopo un push della coda quando `origin/main` conti
 
 1. Eseguire il bootstrap obbligatorio definito in `AGENTS.md`.
 2. Applicare, se necessario, il riallineamento iniziale sicuro autorizzato in questo documento.
-3. Leggere da `origin/main` `AI_STATE.md`, `TASK_INDEX.md` e tutti i task con stato `Planned`.
+3. Leggere una sola volta all'avvio `AI_STATE.md`, `TASK_INDEX.md`, i task della tranche e il contesto richiesto, secondo `LEAN_AUTONOMOUS_EXECUTION.md`.
 4. Ordinare i task eseguibili per numero progressivo crescente.
 5. Selezionare il primo task i cui prerequisiti risultano soddisfatti.
 6. Eseguire integralmente il task secondo `CODEX_WORKFLOW.md`.
-7. Eseguire test, creare commit, Engineering Review, aggiornare stato e pubblicare quanto previsto.
-8. Dopo ogni push riuscito, eseguire nuovamente `git fetch origin main`.
-9. Se il workspace locale è rimasto pulito e soltanto indietro senza divergenza, applicare nuovamente `git merge --ff-only origin/main`.
-10. Rileggere da `origin/main` `AI_STATE.md`, `TASK_INDEX.md`, le review appena pubblicate e gli eventuali nuovi task o decisioni.
+7. Per task intermedi eseguire verifiche mirate e produrre una Engineering Review compatta; riservare suite completa, rebuild, database pulito ed end-to-end al quality gate finale salvo requisito esplicito del task.
+8. Dopo ogni push riuscito, eseguire `git fetch origin main` e, quando necessario e sicuro, `git merge --ff-only origin/main`.
+9. Tra task della stessa tranche rileggere soltanto `AI_STATE.md`, `TASK_INDEX.md`, la review appena prodotta, il task successivo e gli eventuali documenti operativi effettivamente cambiati.
+10. Non rileggere file invariati già acquisiti nel bootstrap completo e non ristampare interi documenti lunghi per conferma.
 11. Se esiste un altro task `Planned` eseguibile, proseguire automaticamente senza attendere il maintainer.
 12. Terminare soltanto quando si verifica una condizione di arresto.
 
@@ -98,16 +92,17 @@ Codex deve fermare la coda e riportare lo stato completo quando:
 - Codex non inventa requisiti mancanti.
 - Ogni task conserva commit, review e verifiche separati e identificabili.
 - Prima di iniziare il task successivo, il task precedente deve risultare pubblicato e lo stato remoto deve essere coerente.
+- L'ottimizzazione dei token non autorizza a saltare controlli necessari alla sicurezza, al criterio di completamento o al quality gate finale.
 - Le operation non vengono eseguite automaticamente, salvo che siano già `Planned`, necessarie alla prosecuzione e prive di decisioni discrezionali; in caso contrario la coda si arresta.
 
 ## Report finale della coda
 
-Al termine Codex deve mostrare un riepilogo unico contenente:
+Al termine Codex deve mostrare un riepilogo unico e sintetico contenente:
 
 - task eseguiti nell'ordine;
 - verdetto di ogni review;
 - commit applicativi e commit delle review;
-- test eseguiti;
+- test mirati intermedi e verifiche complete del quality gate;
 - task rimasti `Blocked` o `Planned`;
 - motivo dell'arresto;
 - stato finale di branch e working tree.
