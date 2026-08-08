@@ -7,35 +7,23 @@ Codex esegue solo attività esplicitamente richieste e rispetta sempre:
 3. `docs/06_AI/GIT_WORKFLOW.md`;
 4. il TASK o OPS richiesto.
 
-## Bootstrap obbligatorio
+Per una coda autonoma applica inoltre `WORKFLOWS/AUTONOMOUS_TASK_QUEUE.md` e `WORKFLOWS/LEAN_AUTONOMOUS_EXECUTION.md`.
 
-Prima di interpretare qualsiasi comando:
+## Bootstrap
 
-```bash
-git fetch origin main
-```
+Per una nuova attività eseguire `git fetch origin main` e leggere da `origin/main` i documenti operativi, indice, attività, decisioni e fonti richieste.
 
-Poi leggere da `origin/main` mediante `git show`:
+In una tranche autonoma il bootstrap completo viene eseguito una sola volta. Tra task consecutivi rileggere soltanto stato, indice, review precedente, task successivo ed eventuali documenti realmente cambiati. Non ristampare o rileggere file lunghi invariati solo per conferma.
 
-- `AGENTS.md`;
-- `docs/06_AI/AI_CONSTITUTION.md`;
-- `docs/06_AI/AI_STATE.md`;
-- `docs/06_AI/CODEX_WORKFLOW.md`;
-- `docs/06_AI/GIT_WORKFLOW.md`;
-- l'indice e il file dell'attività richiesta;
-- decisioni, review e documenti AI indicati dall'attività.
-
-Il bootstrap non modifica il working tree e non autorizza automaticamente pull, merge, rebase, reset, stash o force push.
-
-Se il fetch fallisce, fermarsi.
+Il bootstrap non autorizza automaticamente pull, merge non previsti, rebase, reset, stash o force push. Se il fetch fallisce, fermarsi.
 
 ## Comandi sintetici
 
 ### `Esegui TASK-XXXX`
 
-Leggere da `origin/main` `TASK_INDEX.md`, `TASKS/TASK-XXXX.md` e i prerequisiti indicati. Eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md` soltanto se lo stato esatto nell'indice è `Planned`.
+Leggere `TASK_INDEX.md`, `TASKS/TASK-XXXX.md` e i prerequisiti indicati. Eseguire il task e produrre `REVIEWS/REVIEW-XXXX.md` soltanto se lo stato esatto nell'indice è `Planned`.
 
-La presenza fisica di un file task non autorizza l'esecuzione. I task `Completed`, `Superseded`, retrospettivi o marcati come archivio non eseguibile devono essere rifiutati. In particolare, un comando `Esegui TASK-0001`–`Esegui TASK-0007` deve essere rifiutato perché riguarda task storici già completati, salvo una nuova autorizzazione esplicita del maintainer registrata in un nuovo task o operation.
+I task `Completed`, `Superseded`, retrospettivi o marcati come archivio non eseguibile devono essere rifiutati. `TASK-0001`–`TASK-0007` sono storici.
 
 ### `Esegui l'ultimo task`
 
@@ -43,7 +31,7 @@ Leggere `AI_STATE.md` e verificare che `current_task` risulti `Planned` anche in
 
 ### `Esegui OPS-XXXX`
 
-Leggere da `origin/main` `OPERATIONS/OPS_INDEX.md` e `OPERATIONS/OPS-XXXX.md`. Eseguire soltanto la procedura operativa autorizzata e produrre il report richiesto.
+Leggere `OPERATIONS/OPS_INDEX.md` e `OPERATIONS/OPS-XXXX.md`. Eseguire soltanto la procedura operativa autorizzata e produrre il report richiesto.
 
 ### `Esegui l'ultima operation`
 
@@ -51,28 +39,57 @@ Individuare in `OPS_INDEX.md` la prima operation `Planned` i cui prerequisiti so
 
 ## Workflow TASK
 
-1. **Leggere il contesto:** soltanto i documenti tecnici richiesti o strettamente necessari.
-2. **Verificare il perimetro:** file autorizzati, criteri, condizioni di arresto e istruzioni Git.
-3. **Controllare Git:** eseguire `git status` e proteggere tutte le modifiche non correlate.
-4. **Implementare:** applicare esclusivamente le modifiche richieste.
-5. **Verificare e testare:** eseguire i test richiesti e controllare i criteri di completamento.
-6. **Applicare le istruzioni Git:** seguire `GIT_WORKFLOW.md`; prima del push eseguire un nuovo fetch e verificare il fast-forward.
-7. **Preparare la Engineering Review:** creare `docs/06_AI/REVIEWS/REVIEW-XXXX.md` usando il template ufficiale.
-8. **Aggiornare lo stato:** aggiornare, quando previsto, `TASK_INDEX.md`, `AI_STATE.md` e la documentazione pertinente.
-9. **Pubblicare:** il task è completato soltanto quando commit applicativo, review e stato sono pubblicati oppure il blocco è documentato.
-10. **Mostrare il report e fermarsi:** indicare review, verdetto, SHA ed esito push.
+1. **Contesto mirato:** leggere soltanto fonti necessarie al task; usare ricerca e diff prima di aprire file interi.
+2. **Perimetro:** verificare file autorizzati, criteri, arresti e istruzioni Git.
+3. **Git:** controllare `git status` e proteggere modifiche non correlate.
+4. **Implementazione:** applicare esclusivamente le modifiche richieste.
+5. **Verifica proporzionata:**
+   - task intermedio di tranche: test mirati e regressioni direttamente dipendenti;
+   - task standalone: verifiche richieste dal task;
+   - quality gate: suite completa, build/runtime, migrazioni ed end-to-end previsti.
+6. **Git pre-push:** seguire `GIT_WORKFLOW.md`, fetch e controllo fast-forward.
+7. **Engineering Review:**
+   - task intermedio: review compatta;
+   - quality gate o task con problemi: review completa.
+8. **Stato:** aggiornare `TASK_INDEX.md`, `AI_STATE.md` e documentazione solo quando previsto.
+9. **Pubblicazione:** completamento solo dopo commit, review e stato pubblicati oppure blocco documentato.
+10. **Output:** rispondere in modo sintetico; nella coda autonoma non produrre lunghi riepiloghi intermedi se il task successivo può partire.
 
-La Engineering Review deve contenere, quando pertinenti: metadati, verdetto, rischio, sintesi, problemi con ID stabile, review per file ed end-to-end, regressioni, checklist, piano di consolidamento, decisioni richieste, autorizzazione o blocco del task successivo e conferma finale.
+## Review compatta per task intermedi
+
+Deve contenere almeno:
+
+- task, commit, verdetto e rischio;
+- sintesi delle modifiche;
+- test mirati realmente eseguiti;
+- problemi/rischi residui;
+- conferma che il perimetro è rispettato;
+- autorizzazione o blocco del task successivo.
+
+Non è obbligatorio ripetere review file-per-file, checklist generiche o piano di consolidamento quando non aggiungono informazione.
+
+## Review completa
+
+È obbligatoria per quality gate, regressioni significative, verdetto con riserve o non approvato. Include quando pertinenti: indicatori, problemi con ID stabile, review per file ed end-to-end, regressioni, checklist, piano di consolidamento, decisioni richieste e stato finale.
 
 ## Workflow OPS
 
-1. **Leggere lo stato reale:** eseguire i comandi diagnostici definiti dall'operation.
-2. **Verificare autorizzazioni e prerequisiti:** operazioni Git normalmente vietate sono consentite soltanto se il file OPS le autorizza esplicitamente.
-3. **Proteggere il lavoro locale:** creare backup o stash solo quando l'operation lo richiede; non duplicare backup già esistenti.
-4. **Eseguire gli step nell'ordine indicato:** non saltare, riordinare o ampliare le operazioni.
-5. **Fermarsi sulle condizioni previste:** conflitto non deterministico, errore fuori perimetro o rischio di perdita dati.
-6. **Verificare:** controllare stato Git, marcatori di conflitto, diff, commit, push e working tree.
-7. **Produrre il report operativo:** creare il report in `docs/06_AI/OPERATIONS/REPORTS/` quando richiesto e aggiornare `OPS_INDEX.md` se autorizzato.
+1. leggere lo stato reale;
+2. verificare autorizzazioni e prerequisiti;
+3. proteggere il lavoro locale quando richiesto;
+4. eseguire gli step nell'ordine indicato;
+5. fermarsi sulle condizioni previste;
+6. verificare stato Git, diff, commit e push;
+7. produrre il report operativo richiesto.
+
+## Efficienza del contesto
+
+- Preferire `rg`, `grep`, `git diff --name-only` e `git diff --stat` prima di leggere file completi.
+- Leggere intervalli pertinenti quando possibile.
+- Usare output test sintetici e aprire log estesi solo in caso di fallimento.
+- Non rieseguire suite complete già coperte da un quality gate successivo, salvo requisito esplicito o rischio concreto.
+- Non rileggere documenti invariati già presenti nel contesto della sessione.
+- La qualità e la sicurezza prevalgono sempre sul risparmio di token.
 
 ## Regole comuni
 
